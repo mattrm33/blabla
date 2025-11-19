@@ -1,6 +1,6 @@
 /* === PRODUITS INITIAL === */
 let PRODUCTS = [
-  { name: "Nike Phantom III Elite", cat:"nike", price:80, images:["https://i.imgur.com/m6qs6pT.jpeg","https://i.imgur.com/m6qs6pT2.jpeg"] },
+  { name: "Nike Phantom III Elite", cat:"nike", price:80, images:["https://i.imgur.com/dCFxN49.png","https://i.imgur.com/i0tVarJ.png","https://i.imgur.com/XKvhyVQ.png","https://i.imgur.com/o26Tm5D.png","https://i.imgur.com/fcX1NKQ.png","https://i.imgur.com/EDa6rAI.png","https://i.imgur.com/2LdtmUc.png","https://i.imgur.com/pU9EEs7.png","https://i.imgur.com/pU9EEs7.png","https://i.imgur.com/WQh2Sd2.png","https://i.imgur.com/WQh2Sd2.png","https://i.imgur.com/gPyG6lp.png"] },
   { name: "Adidas Predator Elite", cat:"adidas", price:80, images:["https://i.imgur.com/IRlkw8v.jpeg"] },
   { name: "Adidas Copa Pure III", cat:"adidas", price:80, images:["https://i.imgur.com/0N1uYRv.jpeg","https://i.imgur.com/0N1uYRv2.jpeg"] },
   { name: "New Balance Tekela", cat:"newbalance", price:80, images:["https://i.imgur.com/ILgrgIQ.jpeg"] }

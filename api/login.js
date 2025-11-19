@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import { Pool } from "pg";
+import pkg from "pg";
+const { Pool } = pkg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -18,16 +19,15 @@ export default async function handler(req, res) {
       [user, pass]
     );
 
-    if (result.rows.length === 0) {
+    if (result.rows.length === 0)
       return res.json({ success: false, msg: "Identifiants incorrects" });
-    }
 
     const token = jwt.sign({ user }, process.env.SECRET_KEY);
     return res.json({ success: true, token });
-
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, msg: "Erreur serveur" });
   }
 }
+
 

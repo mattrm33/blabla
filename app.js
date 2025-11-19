@@ -174,4 +174,435 @@ function cartPanelHTML(){
         <div class="small">Total: <strong>${total.toFixed(2)}€</strong></div>
       </div>
       <div class="cart-items" id="cart-items">${lines}</div>
-      <div style="margin-top:12px;displa
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="checkoutBtn" class="btn btn-block">Commander (Instagram)</button>
+        <button id="clearCartBtn" class="btn ghost">Vider</button>
+      </div>
+      <div style="margin-top:8px" class="small">⚠️ Le message est copié, puis nous ouvrons Instagram pour que tu colles en DM.</div>
+    </div>
+  `;
+}
+
+/* Home render */
+function renderHome(filterBrand='all'){
+  const products = loadProducts();
+  const filtered = filterBrand === 'all' ? products : products.filter(p=>p.brand === filterBrand);
+  const grid = filtered.map(p => productCardHTML(p)).join('') || `<div class="notfound center"><p class="kicker">Aucun produit pour cette catégorie</p></div>`;
+
+  APP.innerHTML = `
+    ${renderHeader()}
+    ${renderHero()}
+    <div class="container">
+      <main>
+        <div class="grid">${grid}</div>
+      </main>
+      <aside class="aside">
+        ${cartPanelHTML()}
+      </aside>
+    </div>
+    <footer class="footer">© ${new Date().getFullYear()} Crampon Direct</footer>
+  `;
+
+  attachHomeListeners();
+}
+
+/* Product detail render */
+function renderProductDetail(id){
+  const products = loadProducts();
+  const p = products.find(x => x.id === id);
+  if(!p){ APP.innerHTML = `${renderHeader()}<div class="notfound center"><h2>404 — Produit introuvable</h2><p><a class="btn" href="#/">Retour</a></p></div>`; return; }
+
+  APP.innerHTML = `
+    ${renderHeader()}
+    <section class="hero" style="text-align:left;max-width:1100px;margin:24px auto">
+      <div class="detail">
+        <div class="detail-media"><img src="${esc(p.image)}" alt="${esc(p.name)}" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="detail-info">
+          <div class="badge">${getBrandLabel(p.brand)}</div>
+          <h2 style="margin:10px 0">${esc(p.name)}</h2>
+          <p class="small">${esc(p.description)}</p>
+          <div style="margin-top:18px;font-size:28px;font-weight:800">${p.price.toFixed(2)}€</div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="btn" data-action="add" data-id="${p.id}">Ajouter au panier</button>
+            <a class="btn ghost" href="#/">Retour</a>
+          </div>
+          <div style="margin-top:10px" class="small">Stock : ${p.stock}</div>
+        </div>
+      </div>
+    </section>
+    <div style="max-width:1100px;margin:20px auto">${cartPanelHTML()}</div>
+    <footer class="footer">© ${new Date().getFullYear()} Crampon Direct</footer>
+  `;
+
+  attachDetailListeners();
+}
+
+/* -------------------------
+   Attach listeners
+   ------------------------- */
+function attachHomeListeners(){
+  // category buttons
+  document.querySelectorAll('.cat-btn').forEach(btn=>{
+    btn.onclick = (e)=>{
+      document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      renderHome(cat);
+    };
+  });
+
+  // action buttons on cards
+  document.querySelectorAll('[data-action]').forEach(btn=>{
+    btn.onclick = (e)=>{
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      if(action === 'view'){ location.hash = `#product-${id}` }
+      else if(action === 'add'){ addToCart(id); renderHome(currentCategory()) }
+      else if(action === 'edit'){ showEditProductModal(id) }
+    };
+  });
+
+  // login / add / logout
+  const loginBtn = document.getElementById('btn-login');
+  if(loginBtn) loginBtn.onclick = showLoginModal;
+  const addBtn = document.getElementById('btn-add');
+  if(addBtn) addBtn.onclick = showAddProductModal;
+  const logoutBtn = document.getElementById('btn-logout');
+  if(logoutBtn) { logoutBtn.onclick = ()=>{ sessionStorage.removeItem(SESSION_ADMIN); toast('Déconnecté'); renderHome(currentCategory()) } }
+
+  // cart actions
+  attachCartListeners();
+}
+
+function attachDetailListeners(){
+  document.querySelectorAll('[data-action]').forEach(btn=>{
+    btn.onclick = (e)=>{
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      if(action === 'add'){ addToCart(id); renderProductDetail(id); }
+    }
+  });
+  attachCartListeners();
+}
+
+function attachCartListeners(){
+  // increment / decrement / remove
+  document.querySelectorAll('#cart-items [data-action]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      if(action === 'inc') changeCartQty(id, +1);
+      if(action === 'dec') changeCartQty(id, -1);
+      if(action === 'remove') removeFromCart(id);
+      refreshCartPanel();
+    };
+  });
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  if(checkoutBtn) checkoutBtn.onclick = startInstagramCheckout;
+  const clearBtn = document.getElementById('clearCartBtn');
+  if(clearBtn) clearBtn.onclick = ()=> { saveCart([]); refreshCartPanel(); toast('Panier vidé') }
+}
+
+/* -------------------------
+   Cart operations
+   ------------------------- */
+function addToCart(id){
+  const products = loadProducts();
+  const p = products.find(x=>x.id===id);
+  if(!p || p.stock <= 0){ toast('Stock insuffisant'); return }
+  const cart = loadCart();
+  const line = cart.find(l=>l.id===id);
+  if(line){
+    // only add if stock allows
+    if(line.qty + 1 > p.stock){ toast('Quantité supérieure au stock'); return }
+    line.qty += 1;
+  } else {
+    cart.push({ id, qty: 1 });
+  }
+  saveCart(cart);
+  toast('Produit ajouté');
+}
+
+function changeCartQty(id, diff){
+  const cart = loadCart();
+  const products = loadProducts();
+  const p = products.find(x=>x.id===id);
+  const l = cart.find(x=>x.id===id);
+  if(!l) return;
+  l.qty += diff;
+  if(l.qty < 1) l.qty = 1;
+  if(l.qty > (p? p.stock : Infinity)){ l.qty = p.stock; toast('Limite stock atteinte') }
+  saveCart(cart);
+}
+
+function removeFromCart(id){
+  let cart = loadCart();
+  cart = cart.filter(x=>x.id!==id);
+  saveCart(cart);
+  toast('Supprimé du panier');
+}
+
+function refreshCartPanel(){
+  // re-render whole page to update cart (simple approach)
+  if(location.hash.startsWith('#product-')) router(); else renderHome(currentCategory());
+}
+
+/* -------------------------
+   Checkout (Instagram flow)
+   ------------------------- */
+function startInstagramCheckout(){
+  const cart = loadCart();
+  if(!cart.length){ toast('Panier vide'); return }
+  const products = loadProducts();
+
+  // Build message
+  let message = `Bonjour, je souhaite commander :%0A`; // %0A -> newline in URL when needed but we copy raw
+  let plain = `Bonjour, je souhaite commander :\n`;
+  let total = 0;
+  cart.forEach(line=>{
+    const p = products.find(pr=>pr.id===line.id);
+    if(p){
+      const lineTotal = (line.qty * p.price);
+      total += lineTotal;
+      plain += `- ${p.name} x${line.qty} → ${lineTotal.toFixed(2)}€\n`;
+      message += `- ${p.name} x${line.qty} → ${lineTotal.toFixed(2)}€%0A`;
+    }
+  });
+  plain += `Total: ${total.toFixed(2)}€\n\nNom: \nTéléphone: \nAdresse (optionnel): \n\nMerci !`;
+  message += `Total: ${total.toFixed(2)}€%0A%0ANom:%0ATéléphone:%0AAdresse:%0A%0AMerci !`;
+
+  // reduce stock immediately (simulate reservation) and clear cart
+  const productsUpdated = products.map(p=>{
+    const inCart = cart.find(c=>c.id===p.id);
+    if(inCart) return { ...p, stock: Math.max(0, p.stock - inCart.qty) };
+    return p;
+  });
+  saveProducts(productsUpdated);
+  saveCart([]);
+
+  // Copy plain message to clipboard, then open Instagram profile
+  copyTextToClipboard(plain).then(()=>{
+    toast('Message copié ✅ — ouverture Instagram...');
+    // open Instagram profile in new tab
+    window.open(INSTAGRAM_PROFILE, '_blank', 'noopener');
+
+    // After a little delay, refresh UI so updated stock & empty cart are shown
+    setTimeout(()=> { refreshCartPanel(); }, 700);
+  }).catch(()=>{
+    // fallback: open profile but also show modal with message to copy
+    showPlainMessageModal(plain);
+    window.open(INSTAGRAM_PROFILE, '_blank', 'noopener');
+    saveProducts(productsUpdated);
+    saveCart([]);
+    refreshCartPanel();
+  });
+}
+
+/* Copy helper */
+function copyTextToClipboard(text){
+  if(navigator.clipboard && window.isSecureContext){
+    return navigator.clipboard.writeText(text);
+  } else {
+    // older fallback
+    return new Promise((resolve, reject)=>{
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ta.remove(); resolve(); } catch(e){ ta.remove(); reject(e) }
+    })
+  }
+}
+
+/* If clipboard fails, show modal with message to copy manually */
+function showPlainMessageModal(text){
+  MODAL_ROOT.innerHTML = `
+    <div class="modal-backdrop" id="plainModal">
+      <div class="modal">
+        <h3>Copier le message</h3>
+        <p>Nous avons ouvert Instagram. Copie le message ci-dessous et colle le en DM sur notre profil.</p>
+        <textarea readonly style="width:100%;min-height:160px;padding:10px;border-radius:8px">${esc(text)}</textarea>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="closePlain" class="btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('closePlain').onclick = ()=>{ MODAL_ROOT.innerHTML = '' };
+}
+
+/* -------------------------
+   Admin: login + add/edit/delete
+   ------------------------- */
+function showLoginModal(){
+  MODAL_ROOT.innerHTML = `
+    <div class="modal-backdrop" id="loginBackdrop">
+      <div class="modal">
+        <h3>Connexion Admin</h3>
+        <div class="form-row"><input id="adminUser" class="input" placeholder="Identifiant (admin)"></div>
+        <div class="form-row"><input id="adminPass" type="password" class="input" placeholder="Mot de passe (1234)"></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button id="doLogin" class="btn">Se connecter</button>
+          <button id="closeLogin" class="btn ghost">Annuler</button>
+        </div>
+        <div id="loginError" class="small" style="color:var(--danger);margin-top:8px"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('closeLogin').onclick = ()=> MODAL_ROOT.innerHTML = '';
+  document.getElementById('doLogin').onclick = doLogin;
+  document.getElementById('adminPass').addEventListener('keydown', (e)=> e.key==='Enter' && doLogin());
+}
+
+function doLogin(){
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  const err = document.getElementById('loginError');
+  if(u === ADMIN_USER && p === ADMIN_PASS){
+    sessionStorage.setItem(SESSION_ADMIN, '1');
+    MODAL_ROOT.innerHTML = '';
+    toast('Admin connecté');
+    renderHome(currentCategory());
+    // open add modal optionally
+  } else {
+    err.textContent = 'Identifiants incorrects';
+  }
+}
+
+/* Add product modal */
+function showAddProductModal(){
+  if(!isAdmin()){ toast('Connecte toi en admin'); return }
+  MODAL_ROOT.innerHTML = `
+    <div class="modal-backdrop" id="addBackdrop">
+      <div class="modal">
+        <h3>Ajouter un produit</h3>
+        <div class="form-row"><input id="p_name" class="input" placeholder="Nom du produit"></div>
+        <div class="form-row">
+          <select id="p_brand" class="input">
+            <option value="nike">Nike</option>
+            <option value="adidas">Adidas</option>
+            <option value="newbalance">New Balance</option>
+          </select>
+        </div>
+        <div class="form-row"><input id="p_price" class="input" placeholder="Prix €" type="number" step="0.01" value="80"></div>
+        <div class="form-row"><input id="p_stock" class="input" placeholder="Stock" type="number" value="1"></div>
+        <div class="form-row"><input id="p_image" class="input" placeholder="URL image (ou laisse vide)"></div>
+        <div class="form-row"><textarea id="p_desc" class="input" placeholder="Description"></textarea></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button id="saveProduct" class="btn">Ajouter</button>
+          <button id="closeAdd" class="btn ghost">Annuler</button>
+        </div>
+        <div id="addError" class="small" style="color:var(--danger);margin-top:8px"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('closeAdd').onclick = ()=> MODAL_ROOT.innerHTML = '';
+  document.getElementById('saveProduct').onclick = ()=>{
+    const name = document.getElementById('p_name').value.trim();
+    const brand = document.getElementById('p_brand').value;
+    const price = parseFloat(document.getElementById('p_price').value || 0);
+    const stock = parseInt(document.getElementById('p_stock').value || 0);
+    const image = document.getElementById('p_image').value.trim() || 'https://via.placeholder.com/800x600?text=Cramp';
+    const desc = document.getElementById('p_desc').value.trim();
+
+    if(!name || !price || !Number.isFinite(stock)){
+      document.getElementById('addError').textContent = 'Remplis nom / prix / stock';
+      return;
+    }
+    const products = loadProducts();
+    products.push({ id: genId(), name, brand, price, stock, image, description: desc });
+    saveProducts(products);
+    MODAL_ROOT.innerHTML = '';
+    toast('Produit ajouté');
+    renderHome(currentCategory());
+  };
+}
+
+/* Edit product modal */
+function showEditProductModal(id){
+  if(!isAdmin()){ toast('Connecte toi en admin'); return }
+  const products = loadProducts();
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  MODAL_ROOT.innerHTML = `
+    <div class="modal-backdrop" id="editBackdrop">
+      <div class="modal">
+        <h3>Éditer produit</h3>
+        <div class="form-row"><input id="e_name" class="input" value="${esc(p.name)}"></div>
+        <div class="form-row">
+          <select id="e_brand" class="input">
+            <option value="nike"${p.brand==='nike'?' selected':''}>Nike</option>
+            <option value="adidas"${p.brand==='adidas'?' selected':''}>Adidas</option>
+            <option value="newbalance"${p.brand==='newbalance'?' selected':''}>New Balance</option>
+          </select>
+        </div>
+        <div class="form-row"><input id="e_price" class="input" type="number" step="0.01" value="${p.price}"></div>
+        <div class="form-row"><input id="e_stock" class="input" type="number" value="${p.stock}"></div>
+        <div class="form-row"><input id="e_image" class="input" value="${esc(p.image)}"></div>
+        <div class="form-row"><textarea id="e_desc" class="input">${esc(p.description)}</textarea></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button id="saveEdit" class="btn">Sauvegarder</button>
+          <button id="delProd" class="btn danger">Supprimer</button>
+          <button id="closeEdit" class="btn ghost">Annuler</button>
+        </div>
+        <div id="editError" class="small" style="color:var(--danger);margin-top:8px"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('closeEdit').onclick = ()=> MODAL_ROOT.innerHTML = '';
+  document.getElementById('delProd').onclick = ()=>{
+    if(!confirm('Supprimer ce produit ?')) return;
+    let products = loadProducts(); products = products.filter(x=>x.id!==p.id); saveProducts(products);
+    MODAL_ROOT.innerHTML = ''; toast('Produit supprimé'); renderHome(currentCategory());
+  };
+  document.getElementById('saveEdit').onclick = ()=>{
+    const name = document.getElementById('e_name').value.trim();
+    const brand = document.getElementById('e_brand').value;
+    const price = parseFloat(document.getElementById('e_price').value || 0);
+    const stock = parseInt(document.getElementById('e_stock').value || 0);
+    const image = document.getElementById('e_image').value.trim() || p.image;
+    const desc = document.getElementById('e_desc').value.trim();
+    if(!name){ document.getElementById('editError').textContent='Nom requis'; return; }
+    const products = loadProducts();
+    const idx = products.findIndex(x=>x.id===p.id);
+    products[idx] = { ...products[idx], name, brand, price, stock, image, description: desc };
+    saveProducts(products);
+    MODAL_ROOT.innerHTML = ''; toast('Modifications sauvegardées'); renderHome(currentCategory());
+  };
+}
+
+/* -------------------------
+   Helpers
+   ------------------------- */
+function currentCategory(){
+  const active = document.querySelector('.cat-btn.active');
+  return active ? active.dataset.cat : 'all';
+}
+
+/* -------------------------
+   Init
+   ------------------------- */
+function init(){
+  // make sure products exist
+  loadProducts();
+
+  // initial route render
+  router();
+
+  // global click delegation for dynamic buttons (cards)
+  document.addEventListener('click', (ev)=>{
+    const btn = ev.target.closest('[data-action]');
+    if(btn){
+      const action = btn.dataset.action; const id = btn.dataset.id;
+      if(action === 'view'){ location.hash = `#product-${id}` }
+    }
+  });
+
+  // delegate login/add buttons from header after render
+  document.addEventListener('click', (ev)=>{
+    if(ev.target.id === 'btn-login'){ showLoginModal() }
+    if(ev.target.id === 'btn-add'){ showAddProductModal() }
+    if(ev.target.id === 'btn-logout'){ sessionStorage.removeItem(SESSION_ADMIN); toast('Déconnecté'); renderHome(currentCategory()) }
+  });
+}
+
+init();

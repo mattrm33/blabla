@@ -11,7 +11,6 @@
 
 <header>
   <h1><i class="fa-solid fa-bag-shopping"></i> Crampon Direct</h1>
-
   <nav>
     <ul>
       <li data-cat="all" class="active">Tous</li>
@@ -20,7 +19,6 @@
       <li data-cat="newbalance">New Balance</li>
     </ul>
   </nav>
-
   <button id="adminBtn"><i class="fa-solid fa-user-shield"></i> Admin</button>
 </header>
 
@@ -43,7 +41,7 @@
 <!-- ADMIN PANEL -->
 <div class="modal" id="adminPanel">
   <div class="modal-content">
-    <h2>Ajouter / Modifier Produit</h2>
+    <h2>Gestion des Produits</h2>
     <input type="text" id="prodName" placeholder="Nom du produit">
     <input type="text" id="prodCat" placeholder="Catégorie (nike/adidas/newbalance)">
     <input type="number" id="prodPrice" placeholder="Prix (€)">
@@ -54,6 +52,15 @@
   </div>
 </div>
 
+<!-- PAGE PRODUIT MODAL -->
+<div class="modal" id="productPage">
+  <div class="modal-content product-page-content">
+    <span class="close-product">&times;</span>
+    <div id="productDetail"></div>
+  </div>
+</div>
+
 <script src="app.js"></script>
 </body>
 </html>
+

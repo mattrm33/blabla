@@ -1,18 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Crampon Direct - Boutique</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CramponDirect Boutique</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app"></div>
 
-  <!-- Templates / modal root -->
-  <div id="modal-root"></div>
+<header>
+  <h1>⚽ Crampons Direct</h1>
+  <button id="adminBtn">Admin</button>
+</header>
 
-  <script type="module" src="app.js"></script>
+<section class="categories">
+  <button class="catBtn" data-cat="nike">Nike</button>
+  <button class="catBtn" data-cat="adidas">Adidas</button>
+  <button class="catBtn" data-cat="newbalance">New Balance</button>
+</section>
+
+<section id="productList" class="product-grid"></section>
+
+<footer>
+  <p>Contact Instagram : @cramponsdirect</p>
+</footer>
+
+<!-- Modal Login Admin -->
+<div id="loginModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Connexion Admin</h2>
+    <input type="password" id="adminPass" placeholder="Mot de passe">
+    <button id="loginSubmit">Se connecter</button>
+    <button class="closeModal">&times;</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

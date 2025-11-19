@@ -1,0 +1,13 @@
+{
+  "name": "cramponsdirect",
+  "version": "1.0.0",
+  "description": "Site Crampon Direct avec admin panel",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.11.0"
+  }
+}

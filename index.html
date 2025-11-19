@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crampon Direct Boutique</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crampon Direct</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
 </head>
 <body>
 
 <header>
-  <h1><i class="fa-solid fa-bag-shopping"></i> Crampon Direct</h1>
+  <h1>Crampon Direct</h1>
   <nav>
     <ul>
       <li data-cat="all" class="active">Tous</li>
@@ -19,14 +19,14 @@
       <li data-cat="newbalance">New Balance</li>
     </ul>
   </nav>
-  <button id="adminBtn"><i class="fa-solid fa-user-shield"></i> Admin</button>
+  <button id="adminBtn">Admin</button>
 </header>
 
 <main>
   <section id="products" class="grid"></section>
 </main>
 
-<!-- LOGIN MODAL -->
+<!-- Modals -->
 <div class="modal" id="loginModal">
   <div class="modal-content">
     <h2>Connexion Admin</h2>
@@ -38,29 +38,20 @@
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <div class="modal" id="adminPanel">
   <div class="modal-content">
-    <h2>Gestion des Produits</h2>
-    <input type="text" id="prodName" placeholder="Nom du produit">
-    <input type="text" id="prodCat" placeholder="Catégorie (nike/adidas/newbalance)">
-    <input type="number" id="prodPrice" placeholder="Prix (€)">
-    <textarea id="prodImages" placeholder="URLs des images, séparées par une virgule"></textarea>
-    <button id="saveProduct">Enregistrer Produit</button>
+    <h2>Gestion Produits</h2>
+    <input type="text" id="prodName" placeholder="Nom">
+    <input type="text" id="prodCat" placeholder="Catégorie">
+    <input type="number" id="prodPrice" placeholder="Prix">
+    <textarea id="prodImages" placeholder="URLs images, séparées par ,"></textarea>
+    <button id="saveProduct">Enregistrer</button>
     <p id="adminMsg" class="error"></p>
     <span class="close-admin">&times;</span>
   </div>
 </div>
 
-<!-- PAGE PRODUIT MODAL -->
-<div class="modal" id="productPage">
-  <div class="modal-content product-page-content">
-    <span class="close-product">&times;</span>
-    <div id="productDetail"></div>
-  </div>
-</div>
-
-<script src="app.js"></script>
 </body>
 </html>
+
 

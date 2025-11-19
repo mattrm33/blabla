@@ -1,9 +1,9 @@
 /* === PRODUITS INITIAL === */
 const PRODUCTS = [
-  { name: "Nike Phantom III Elite", cat:"nike", price:80, stock:10, img:"https://imgur.com/m6qs6pT.png" },
-  { name: "Adidas Predator Elite", cat:"adidas", price:80, stock:5, img:"https://imgur.com/IRlkw8v.png" },
-  { name: "Adidas Copa Pure III", cat:"adidas", price:80, stock:5, img:"https://imgur.com/0N1uYRv.png" },
-  { name: "New Balance Tekela", cat:"newbalance", price:80, stock:6, img:"https://imgur.com/ILgrgIQ.png" }
+  { name: "Nike Phantom III Elite", cat:"nike", price:80, colors:3, img:"https://i.imgur.com/m6qs6pT.jpeg" },
+  { name: "Adidas Predator Elite", cat:"adidas", price:80, colors:2, img:"https://i.imgur.com/IRlkw8v.jpeg" },
+  { name: "Adidas Copa Pure III", cat:"adidas", price:80, colors:4, img:"https://i.imgur.com/0N1uYRv.jpeg" },
+  { name: "New Balance Tekela", cat:"newbalance", price:80, colors:3, img:"https://i.imgur.com/ILgrgIQ.jpeg" }
 ];
 
 /* STOCK HTML */
@@ -17,7 +17,7 @@ function renderProducts(filter="all") {
     card.classList.add("card");
 
     const img = document.createElement("img");
-    img.src = p.img;
+    img.src = p.img;  // facile à remplacer par ton URL Imgur
 
     const body = document.createElement("div");
     body.classList.add("card-body");
@@ -29,11 +29,11 @@ function renderProducts(filter="all") {
     price.classList.add("price");
     price.textContent = `${p.price}€`;
 
-    const stock = document.createElement("p");
-    stock.classList.add("stock");
-    stock.textContent = `Stock : ${p.stock}`;
+    const colors = document.createElement("p");
+    colors.classList.add("stock"); // on garde la classe "stock" pour le style
+    colors.textContent = `Coloris disponibles : ${p.colors}`;
 
-    body.append(title, price, stock);
+    body.append(title, price, colors);
     card.append(img, body);
     productContainer.appendChild(card);
   });

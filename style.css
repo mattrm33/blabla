@@ -22,11 +22,20 @@ nav li:hover, nav li.active{background:#FFD700;color:#000;}
 
 /* MODAL */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;z-index:1000;}
-.modal-content{background:#111;color:#f0f0f0;padding:20px;border-radius:10px;position:relative;width:90%;max-width:400px;box-shadow:0 0 15px #FFD700;}
+.modal-content{background:#111;color:#f0f0f0;padding:20px;border-radius:10px;position:relative;width:90%;max-width:500px;box-shadow:0 0 15px #FFD700;}
 .modal-content input, .modal-content textarea, .modal-content button{width:100%;margin:10px 0;padding:10px;border-radius:5px;border:none;}
 .modal-content input, .modal-content textarea{background:#222;color:#fff;}
 .modal-content button{background:#FFD700;color:#000;font-weight:bold;cursor:pointer;}
 .modal-content button:hover{background:#e6c200;}
 .close, .close-admin{position:absolute;top:10px;right:10px;cursor:pointer;font-size:20px;}
 .error{color:red;font-size:14px;margin-top:5px;}
+
+/* COOKIE CONSENT */
+.cookie-consent{position:fixed;bottom:0;left:0;width:100%;background:#222;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center;z-index:2000;}
+.cookie-consent button{background:#FFD700;color:#000;border:none;padding:8px 12px;border-radius:5px;font-weight:bold;cursor:pointer;}
+.cookie-consent button:hover{background:#e6c200;}
+
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th, td{border:1px solid #555;padding:8px;text-align:left;}
+th{background:#333;}
 

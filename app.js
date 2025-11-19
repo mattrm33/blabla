@@ -71,3 +71,4 @@ loginSubmit.onclick = () => {
     loginError.style.color = "red";
   }
 };
+

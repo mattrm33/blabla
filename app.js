@@ -6,62 +6,50 @@ let PRODUCTS = [
   { name: "New Balance Tekela", cat:"newbalance", price:80, images:["https://i.imgur.com/ILgrgIQ.jpeg"] }
 ];
 
-/* HTML Elements */
 const productContainer = document.getElementById("products");
 
 /* === RENDER PRODUITS === */
 function renderProducts(filter="all") {
   productContainer.innerHTML = "";
-  PRODUCTS.filter(p => filter==="all" || p.cat===filter).forEach((p,index) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
+  PRODUCTS.filter(p => filter==="all" || p.cat===filter).forEach((p,index)=>{
+    const card = document.createElement("div"); card.classList.add("card");
 
-    const carousel = document.createElement("div");
-    carousel.classList.add("carousel");
-
+    const carousel = document.createElement("div"); carousel.classList.add("carousel");
     p.images.forEach((imgUrl,i)=>{
-      const img = document.createElement("img");
-      img.src = imgUrl;
+      const img = document.createElement("img"); img.src=imgUrl;
       if(i===0) img.classList.add("active");
       carousel.appendChild(img);
     });
 
-    const body = document.createElement("div");
-    body.classList.add("card-body");
-
+    const body = document.createElement("div"); body.classList.add("card-body");
     const title = document.createElement("h3"); title.textContent=p.name;
     const price = document.createElement("p"); price.classList.add("price"); price.textContent=`${p.price}€`;
     const colors = document.createElement("p"); colors.classList.add("stock"); colors.textContent=`Coloris disponibles : ${p.images.length}`;
 
     // Input quantité
-    const qtyInput = document.createElement("input");
-    qtyInput.type="number"; qtyInput.min=1; qtyInput.value=1;
+    const qtyInput = document.createElement("input"); qtyInput.type="number"; qtyInput.min=1; qtyInput.value=1;
 
-    // Bouton commander
-    const orderBtn = document.createElement("button");
-    orderBtn.textContent="Commander";
+    // Bouton commander direct Instagram DM
+    const orderBtn = document.createElement("button"); orderBtn.textContent="Commander";
     orderBtn.onclick = ()=>{
       const qty = qtyInput.value;
       const msg = `Bonjour, je voudrais commander ${qty} paire(s) de ${p.name}.`;
-      navigator.clipboard.writeText(msg).then(()=>{
-        window.open("https://www.instagram.com/cramponsdirect/", "_blank");
-        alert("Message copié dans le presse-papier ! Collez-le dans le DM Instagram.");
-      });
+      const encodedMsg = encodeURIComponent(msg);
+      const url = `https://www.instagram.com/direct/new/?text=${encodedMsg}`;
+      window.open(url,"_blank");
     };
 
     body.append(title, price, colors, qtyInput, orderBtn);
     card.append(carousel, body);
     productContainer.appendChild(card);
 
-    // Lancer le slider
     startCarousel(carousel);
   });
 }
 
 /* === CAROUSEL === */
 function startCarousel(carousel){
-  const imgs = carousel.querySelectorAll("img");
-  let current = 0;
+  const imgs = carousel.querySelectorAll("img"); let current=0;
   setInterval(()=>{
     imgs[current].classList.remove("active");
     current=(current+1)%imgs.length;
@@ -92,16 +80,13 @@ adminBtn.onclick = ()=>loginModal.style.display="flex";
 document.querySelector(".close").onclick = ()=>loginModal.style.display="none";
 
 loginSubmit.onclick = ()=>{
-  const user = document.getElementById("loginUser").value;
-  const pass = document.getElementById("loginPass").value;
+  const user=document.getElementById("loginUser").value;
+  const pass=document.getElementById("loginPass").value;
   if(user==="admin" && pass==="1234"){
     loginError.textContent="Connexion réussie ✔";
     loginError.style.color="green";
     setTimeout(()=>{ loginModal.style.display="none"; adminPanel.style.display="flex"; },800);
-  } else {
-    loginError.textContent="Identifiants incorrects ❌";
-    loginError.style.color="red";
-  }
+  } else { loginError.textContent="Identifiants incorrects ❌"; loginError.style.color="red"; }
 };
 
 /* === ADMIN PANEL === */
@@ -114,16 +99,12 @@ document.getElementById("saveProduct").onclick = ()=>{
   const images=document.getElementById("prodImages").value.split(",").map(url=>url.trim()).filter(Boolean);
 
   if(!name||!cat||!price||images.length===0){
-    adminMsg.textContent="Tous les champs sont obligatoires !";
-    adminMsg.style.color="red";
-    return;
+    adminMsg.textContent="Tous les champs sont obligatoires !"; adminMsg.style.color="red"; return;
   }
 
   PRODUCTS.push({name,cat,price,images});
-  adminMsg.textContent="Produit ajouté avec succès ✔";
-  adminMsg.style.color="green";
+  adminMsg.textContent="Produit ajouté avec succès ✔"; adminMsg.style.color="green";
 
-  // Reset form
   document.getElementById("prodName").value="";
   document.getElementById("prodCat").value="";
   document.getElementById("prodPrice").value="";
@@ -131,3 +112,4 @@ document.getElementById("saveProduct").onclick = ()=>{
 
   renderProducts();
 };
+

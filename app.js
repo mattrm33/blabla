@@ -1,26 +1,31 @@
 /* PRODUITS INITIAUX */
 let PRODUCTS = [
-  {name:"Nike Phantom III Elite",cat:"nike",price:80,images:["https://i.imgur.com/m6qs6pT.jpeg"]},
+  {name:"Nike Phantom III Elite",cat:"nike",price:80,images:["https://i.imgur.com/m6qs6pT.jpeg","https://i.imgur.com/m6qs6pT2.jpeg"]},
   {name:"Adidas Predator Elite",cat:"adidas",price:80,images:["https://i.imgur.com/IRlkw8v.jpeg"]},
+  {name:"Adidas Copa Pure III",cat:"adidas",price:80,images:["https://i.imgur.com/0N1uYRv.jpeg"]},
   {name:"New Balance Tekela",cat:"newbalance",price:80,images:["https://i.imgur.com/ILgrgIQ.jpeg"]}
 ];
 
 /* ELEMENTS */
-const productContainer = document.getElementById("products");
-const loginModal = document.getElementById("loginModal");
-const loginSubmit = document.getElementById("loginSubmit");
-const loginError = document.getElementById("loginError");
-const adminBtn = document.getElementById("adminBtn");
-const adminPanel = document.getElementById("adminPanel");
-const saveProduct = document.getElementById("saveProduct");
-const adminMsg = document.getElementById("adminMsg");
+const productContainer=document.getElementById("products");
+const loginModal=document.getElementById("loginModal");
+const loginSubmit=document.getElementById("loginSubmit");
+const loginError=document.getElementById("loginError");
+const adminBtn=document.getElementById("adminBtn");
+const adminPanel=document.getElementById("adminPanel");
+const saveProduct=document.getElementById("saveProduct");
+const adminMsg=document.getElementById("adminMsg");
 
 /* RENDER PRODUITS */
 function renderProducts(filter="all"){
   productContainer.innerHTML="";
-  PRODUCTS.filter(p=>filter==="all"||p.cat===filter).forEach(p=>{
+  PRODUCTS.filter(p=>filter==="all"||p.cat===filter).forEach((p,index)=>{
     const card=document.createElement("div"); card.classList.add("card");
     const img=document.createElement("img"); img.src=p.images[0];
+    if(p.images.length>1){
+      let i=0;
+      setInterval(()=>{i=(i+1)%p.images.length; img.src=p.images[i];},3000);
+    }
     const body=document.createElement("div"); body.classList.add("card-body");
     const h3=document.createElement("h3"); h3.textContent=p.name;
     const price=document.createElement("p"); price.textContent=`${p.price}€`;
@@ -77,5 +82,6 @@ saveProduct.onclick=()=>{
   document.getElementById("prodImages").value="";
   renderProducts();
 };
+
 
 

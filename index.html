@@ -1,44 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crampon Direct Boutique</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crampon Direct - Boutique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+  <div id="app"></div>
 
-<header>
-  <h1><i class="fa-solid fa-bag-shopping"></i> Crampon Direct</h1>
+  <!-- Templates / modal root -->
+  <div id="modal-root"></div>
 
-  <nav>
-    <ul>
-      <li data-cat="all" class="active">Tous</li>
-      <li data-cat="nike">Nike</li>
-      <li data-cat="adidas">Adidas</li>
-      <li data-cat="newbalance">New Balance</li>
-    </ul>
-  </nav>
-
-  <button id="adminBtn"><i class="fa-solid fa-user-shield"></i> Admin</button>
-</header>
-
-<section id="products" class="grid"></section>
-
-<!-- LOGIN MODAL -->
-<div class="modal" id="loginModal">
-  <div class="modal-content">
-    <h2>Connexion Admin</h2>
-    <input type="text" id="loginUser" placeholder="Identifiant">
-    <input type="password" id="loginPass" placeholder="Mot de passe">
-    <button id="loginSubmit">Connexion</button>
-    <p id="loginError" class="error"></p>
-    <span class="close">&times;</span>
-  </div>
-</div>
-
-<script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

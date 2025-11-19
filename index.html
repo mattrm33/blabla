@@ -3,38 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CramponDirect Boutique</title>
+  <title>Crampon Direct Boutique</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <header>
-  <h1>⚽ Crampons Direct</h1>
-  <button id="adminBtn">Admin</button>
+  <h1><i class="fa-solid fa-bag-shopping"></i> Crampon Direct</h1>
+
+  <nav>
+    <ul>
+      <li data-cat="all" class="active">Tous</li>
+      <li data-cat="nike">Nike</li>
+      <li data-cat="adidas">Adidas</li>
+      <li data-cat="newbalance">New Balance</li>
+    </ul>
+  </nav>
+
+  <button id="adminBtn"><i class="fa-solid fa-user-shield"></i> Admin</button>
 </header>
 
-<section class="categories">
-  <button class="catBtn" data-cat="nike">Nike</button>
-  <button class="catBtn" data-cat="adidas">Adidas</button>
-  <button class="catBtn" data-cat="newbalance">New Balance</button>
-</section>
+<main>
+  <section id="products" class="grid"></section>
+</main>
 
-<section id="productList" class="product-grid"></section>
-
-<footer>
-  <p>Contact Instagram : @cramponsdirect</p>
-</footer>
-
-<!-- Modal Login Admin -->
-<div id="loginModal" class="modal hidden">
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
   <div class="modal-content">
     <h2>Connexion Admin</h2>
-    <input type="password" id="adminPass" placeholder="Mot de passe">
-    <button id="loginSubmit">Se connecter</button>
-    <button class="closeModal">&times;</button>
+    <input type="text" id="loginUser" placeholder="Identifiant">
+    <input type="password" id="loginPass" placeholder="Mot de passe">
+    <button id="loginSubmit">Connexion</button>
+    <p id="loginError" class="error"></p>
+    <span class="close">&times;</span>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

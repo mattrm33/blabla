@@ -1,4 +1,4 @@
-/* PRODUITS INITIAUX */
+// PRODUITS
 let PRODUCTS = [
   {name:"Nike Phantom III Elite",cat:"nike",price:80,images:["https://i.imgur.com/m6qs6pT.jpeg"]},
   {name:"Adidas Predator Elite",cat:"adidas",price:80,images:["https://i.imgur.com/IRlkw8v.jpeg"]},
@@ -6,7 +6,7 @@ let PRODUCTS = [
   {name:"New Balance Tekela",cat:"newbalance",price:80,images:["https://i.imgur.com/ILgrgIQ.jpeg"]}
 ];
 
-/* ELEMENTS */
+// ELEMENTS
 const productContainer=document.getElementById("products");
 const loginModal=document.getElementById("loginModal");
 const loginSubmit=document.getElementById("loginSubmit");
@@ -21,10 +21,9 @@ const refuseCookies=document.getElementById("refuseCookies");
 const policyLink=document.getElementById("policyLink");
 const policyModal=document.getElementById("policyModal");
 
-/* COOKIE LOGIC */
-if(!localStorage.getItem("cookiesAccepted")){
-  cookiePopup.style.display="flex";
-} else { initSite(); }
+// COOKIE LOGIC
+if(!localStorage.getItem("cookiesAccepted")) cookiePopup.style.display="flex";
+else initSite();
 
 acceptCookies.onclick=()=>{
   localStorage.setItem("cookiesAccepted","true");
@@ -34,19 +33,19 @@ acceptCookies.onclick=()=>{
 
 refuseCookies.onclick=()=>{
   alert("Vous devez accepter les cookies pour accéder au site.");
-  window.close(); // ou redirection
+  window.close();
 };
 
 policyLink.onclick=(e)=>{ e.preventDefault(); policyModal.style.display="flex"; };
 document.querySelector(".close-policy").onclick=()=>policyModal.style.display="none";
 
-/* INITIALISATION DU SITE */
+// INIT SITE
 function initSite(){
   renderProducts();
   logVisitor();
 }
 
-/* RENDER PRODUITS */
+// RENDER PRODUITS
 function renderProducts(filter="all"){
   productContainer.innerHTML="";
   PRODUCTS.filter(p=>filter==="all"||p.cat===filter).forEach((p)=>{
@@ -64,7 +63,7 @@ function renderProducts(filter="all"){
   });
 }
 
-/* NAVIGATION CATEGORIES */
+// NAV CATEGORIES
 document.querySelectorAll("nav li").forEach(btn=>{
   btn.onclick=()=>{
     document.querySelector("nav li.active")?.classList.remove("active");
@@ -72,24 +71,20 @@ document.querySelectorAll("nav li").forEach(btn=>{
   }
 });
 
-/* ADMIN LOGIN */
+// ADMIN LOGIN
 adminBtn.onclick=()=>loginModal.style.display="flex";
 document.querySelector(".close").onclick=()=>loginModal.style.display="none";
 
 loginSubmit.onclick=async()=>{
   const user=document.getElementById("loginUser").value;
   const pass=document.getElementById("loginPass").value;
-  // Appel API login
   const res=await fetch("/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user,pass})});
   const data=await res.json();
-  if(data.success){
-    loginError.textContent="Connexion réussie ✔"; loginError.style.color="green";
-    localStorage.setItem("adminJWT",data.token);
-    loginModal.style.display="none"; panelBtn.style.display="inline-block";
-  } else { loginError.textContent="Identifiants incorrects ❌"; loginError.style.color="red"; }
+  if(data.success){ loginError.textContent="Connexion réussie ✔"; loginError.style.color="green"; localStorage.setItem("adminJWT",data.token); loginModal.style.display="none"; panelBtn.style.display="inline-block"; }
+  else { loginError.textContent="Identifiants incorrects ❌"; loginError.style.color="red"; }
 };
 
-/* PANEL ADMIN */
+// PANEL ADMIN
 panelBtn.onclick=()=>{ adminPanel.style.display="flex"; renderLogs(); };
 document.querySelector(".close-admin").onclick=()=>adminPanel.style.display="none";
 
@@ -114,9 +109,10 @@ async function renderLogs(){
   });
 }
 
-/* LOG VISITEUR */
+// LOG VISITEUR
 async function logVisitor(){
   const device= /Mobi|Android/i.test(navigator.userAgent)?"Mobile":(/Tablet/i.test(navigator.userAgent)?"Tablet":"PC");
   await fetch("/api/log",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({device})});
 }
+
 

@@ -9,10 +9,15 @@
 </head>
 <body>
 
-<!-- POPUP COOKIES -->
-<div id="cookieConsent" class="cookie-consent">
-  <p>Nous recueillons votre IP et type d'appareil pour améliorer votre expérience. En continuant, vous acceptez cela.</p>
-  <button id="acceptCookies">Accepter</button>
+<!-- COOKIE POPUP -->
+<div id="cookiePopup" class="cookie-popup">
+  <div class="cookie-content">
+    <p>En acceptant les cookies, vous acceptez notre <a href="#" id="policyLink">Politique de confidentialité</a> qui explique que votre IP et votre appareil sont enregistrés.</p>
+    <div class="cookie-buttons">
+      <button id="acceptCookies">Accepter</button>
+      <button id="refuseCookies">Refuser</button>
+    </div>
+  </div>
 </div>
 
 <header>
@@ -25,7 +30,10 @@
       <li data-cat="newbalance">New Balance</li>
     </ul>
   </nav>
-  <button id="adminBtn">Admin</button>
+  <div>
+    <button id="adminBtn">Admin</button>
+    <button id="panelBtn" style="display:none;">Panel Admin</button>
+  </div>
 </header>
 
 <main>
@@ -55,6 +63,16 @@
       <tbody></tbody>
     </table>
     <span class="close-admin">&times;</span>
+  </div>
+</div>
+
+<!-- POLICY MODAL -->
+<div class="modal" id="policyModal">
+  <div class="modal-content">
+    <h2>Politique de confidentialité</h2>
+    <p>Nous collectons et stockons votre IP complète ainsi que le type de votre appareil. Ces données sont utilisées uniquement pour améliorer le site et surveiller les visiteurs. Votre IP est conservée sur notre base de données sécurisée hébergée en Europe.</p>
+    <p>Vous pouvez consulter nos règles complètes sur la sécurité et l'utilisation des données.</p>
+    <span class="close-policy">&times;</span>
   </div>
 </div>
 

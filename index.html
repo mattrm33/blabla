@@ -9,6 +9,12 @@
 </head>
 <body>
 
+<!-- POPUP COOKIES -->
+<div id="cookieConsent" class="cookie-consent">
+  <p>Nous recueillons votre IP et type d'appareil pour améliorer votre expérience. En continuant, vous acceptez cela.</p>
+  <button id="acceptCookies">Accepter</button>
+</div>
+
 <header>
   <h1>Crampon Direct</h1>
   <nav>
@@ -41,17 +47,16 @@
 <!-- ADMIN PANEL -->
 <div class="modal" id="adminPanel">
   <div class="modal-content">
-    <h2>Panel Admin</h2>
-    <input type="text" id="prodName" placeholder="Nom du produit">
-    <input type="text" id="prodCat" placeholder="Catégorie">
-    <input type="number" id="prodPrice" placeholder="Prix">
-    <textarea id="prodImages" placeholder="URLs images, séparées par ,"></textarea>
-    <button id="saveProduct">Ajouter/Modifier Produit</button>
-    <p id="adminMsg" class="error"></p>
+    <h2>Panel Admin - Logs visiteurs</h2>
+    <table id="logTable">
+      <thead>
+        <tr><th>IP</th><th>Appareil</th><th>Heure</th><th>Action</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
     <span class="close-admin">&times;</span>
   </div>
 </div>
 
 </body>
 </html>
-

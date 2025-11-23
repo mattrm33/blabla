@@ -1,176 +1,228 @@
-/* -------------------------
-   Style global (modern/minimal)
-   ------------------------- */
-:root{
-  --maxw:1200px;
-  --accent:#111;
-  --muted:#747579;
-  --radius:18px;
-  --shadow: 0 20px 50px rgba(7,13,23,0.08);
-  --card-bg: linear-gradient(180deg,#ffffff,#fbfbfb);
-  --gap:28px;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  color-scheme: light;
+/* app.js
+   - products data
+   - render products per category
+   - 3D tilt + cinematic zoom on hover
+   - Instagram contact button copies order message and opens profile
+*/
+
+// PRODUCTS (price = 80€ each)
+const PRODUCTS = [
+  {
+    id: 'p-nike-1',
+    name: 'Nike Phantom III Elite',
+    brand: 'nike',
+    price: 80,
+    stock: 10,
+    image: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/f6b00c2d-fc96-421b-a4d7-2a34429f8d28/phantom-gx-ii-elite-fg-football-boot-bStMCx.png',
+    description: 'Contrôle très précis, semelle performante.'
+  },
+  {
+    id: 'p-adidas-1',
+    name: 'Adidas Predator Elite',
+    brand: 'adidas',
+    price: 80,
+    stock: 5,
+    image: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/0c36ecc23c304e3eb33caca701403824_9366/Predator_Elite_FG_Black_IE1804_01_standard.jpg',
+    description: 'Adhérence et puissance sur tous terrains.'
+  },
+  {
+    id: 'p-adidas-2',
+    name: 'Adidas Copa Pure III',
+    brand: 'adidas',
+    price: 80,
+    stock: 5,
+    image: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/1d529c9cb3c444edbde6050531b203c2_9366/Copa_Pure_III_FG_Black_GW4968_01_standard.jpg',
+    description: 'Touche de balle traditionnelle et confort.'
+  },
+  {
+    id: 'p-nb-1',
+    name: 'New Balance Tekela',
+    brand: 'newbalance',
+    price: 80,
+    stock: 6,
+    image: 'https://nb.scene7.com/is/image/NB/msplsfd4_nb_02_i?$pdpflexf2$',
+    description: 'Légèreté et traction dynamique.'
+  }
+];
+
+const productsGrid = document.getElementById('productsGrid');
+const catButtons = document.querySelectorAll('.cat-btn');
+const yearSpan = document.getElementById('year');
+yearSpan.textContent = new Date().getFullYear();
+
+let currentCategory = 'nike';
+
+// render products for a brand
+function renderProducts(brand = 'nike') {
+  currentCategory = brand;
+  // set body class for background
+  document.body.classList.remove('cat-nike', 'cat-adidas', 'cat-newbalance');
+  document.body.classList.add(`cat-${brand}`);
+
+  // set active button
+  catButtons.forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === brand);
+  });
+
+  productsGrid.innerHTML = PRODUCTS
+    .filter(p => p.brand === brand)
+    .map(p => productCardHTML(p))
+    .join('');
+
+  attachCardListeners();
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  background:linear-gradient(180deg,#fff,#fbfbfd);
-  color:var(--accent);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  display:flex;flex-direction:column;
+// product card html
+function productCardHTML(p){
+  return `
+    <article class="card" data-id="${p.id}">
+      <div class="media">
+        <img class="photo" src="${p.image}" alt="${escapeHtml(p.name)}" />
+      </div>
+
+      <div class="meta">
+        <div>
+          <div class="title">${escapeHtml(p.name)}</div>
+          <div class="brand">${capitalize(p.brand)}</div>
+        </div>
+        <div class="price">${p.price.toFixed(2)}€</div>
+      </div>
+
+      <p class="small" style="color:var(--muted);margin-top:10px">${escapeHtml(p.description)}</p>
+
+      <div class="card-footer">
+        <div style="font-size:13px;color:var(--muted)">${p.stock} en stock</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-outline" data-action="view" data-id="${p.id}">Voir</button>
+          <button class="btn btn-primary" data-action="order" data-id="${p.id}">Commander</button>
+        </div>
+      </div>
+    </article>
+  `;
 }
 
-/* ---------- Containers ---------- */
-.container{max-width:var(--maxw);margin:0 auto;padding:0 20px;width:100%}
+// attach hover tilt & buttons
+function attachCardListeners(){
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card=>{
+    const media = card.querySelector('.media');
+    const photo = card.querySelector('.photo');
 
-/* ---------- Header ---------- */
-.site-header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);border-bottom:1px solid rgba(12,12,12,0.04)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 0}
-.brand{display:flex;align-items:center;gap:14px}
-.logo-pill{width:52px;height:52px;border-radius:12px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
-.brand-title{font-size:14px;font-weight:900;letter-spacing:1px}
-.brand-title span{font-weight:400;color:var(--muted);margin-left:8px}
-.brand-sub{font-size:12px;color:var(--muted)}
+    // mouse move for 3D tilt
+    const onMove = (e) => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const rx = (-dy / rect.height) * 8; // tilt X
+      const ry = (dx / rect.width) * 10; // tilt Y
+      card.style.setProperty('--rx', rx + 'deg');
+      card.style.setProperty('--ry', ry + 'deg');
+    };
 
-/* nav */
-.main-nav{display:flex;gap:10px}
-.cat-btn{
-  background:transparent;border:0;padding:8px 14px;border-radius:999px;font-weight:700;color:var(--muted);cursor:pointer;
-  transition: all .18s ease;
-}
-.cat-btn.active{background:#000;color:#fff;box-shadow:0 8px 20px rgba(2,6,23,0.06)}
+    const onEnter = (e) => {
+      card.classList.add('is-hover');
+      card.addEventListener('mousemove', onMove);
+    };
+    const onLeave = (e) => {
+      card.classList.remove('is-hover');
+      card.style.setProperty('--rx','0deg');
+      card.style.setProperty('--ry','0deg');
+      card.removeEventListener('mousemove', onMove);
+    };
+    card.addEventListener('mouseenter', onEnter);
+    card.addEventListener('mouseleave', onLeave);
 
-/* actions */
-.actions{display:flex;gap:10px;align-items:center}
-.btn{padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;border:0}
-.btn-outline{background:transparent;border:1px solid var(--accent);padding:8px 14px;border-radius:999px}
-.insta{font-weight:800}
-
-/* ---------- Hero ---------- */
-.hero{padding:42px 0 10px;text-align:center}
-.hero h1{font-size:44px;letter-spacing:-1px;font-weight:900}
-.lead{margin-top:8px;color:var(--muted);font-weight:600}
-
-/* ---------- Category backgrounds (logos patterns + watermark overlays) ----------
-   Using exact logo images uploaded by user (local paths).
-   body class controls which pattern to show.
-   ----------------------------------------------------------------------------- */
-
-/* NIKE pattern + watermark */
-body.cat-nike{
-  background-image:
-    url('/mnt/data/73c28d89-221a-42ca-aae9-a223437f36ec.png'),
-    linear-gradient(180deg,#fff,#fbfbfd);
-  background-repeat:repeat,no-repeat;
-  background-position:center -80px, center;
-  background-size:120px, cover;
-}
-body.cat-nike::after{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:0.06;
-  background-image:url('/mnt/data/3fe65746-3fe8-4259-948d-f075d5f90b9f.png');
-  background-repeat:no-repeat;background-position:center top;background-size:55%;
-  filter: blur(18px) saturate(.9);z-index:0;
+    // buttons
+    card.querySelectorAll('[data-action]').forEach(btn=>{
+      btn.onclick = (ev) => {
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        const product = PRODUCTS.find(x => x.id === id);
+        if(action === 'view') showQuickView(product);
+        if(action === 'order') orderViaInstagram(product);
+      };
+    });
+  });
 }
 
-/* ADIDAS */
-body.cat-adidas{
-  background-image:
-    url('/mnt/data/Capture d\'écran 2025-11-23 125028.png'),
-    linear-gradient(180deg,#fff,#fcfcfd);
-  background-repeat:repeat,no-repeat;
-  background-position:center -60px, center;
-  background-size:110px, cover;
-}
-body.cat-adidas::after{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:0.06;
-  background-image:url('/mnt/data/73c28d89-221a-42ca-aae9-a223437f36ec.png');
-  background-repeat:no-repeat;background-position:center top;background-size:60%;
-  filter: blur(20px) saturate(.6);z-index:0;
-}
-
-/* NEW BALANCE */
-body.cat-newbalance{
-  background-image:
-    url('/mnt/data/3fe65746-3fe8-4259-948d-f075d5f90b9f.png'),
-    linear-gradient(180deg,#fff,#fafbfc);
-  background-repeat:repeat,no-repeat;
-  background-position:center -80px, center;
-  background-size:110px, cover;
-}
-body.cat-newbalance::after{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:0.06;
-  background-image:url('/mnt/data/Capture d\'écran 2025-11-23 125028.png');
-  background-repeat:no-repeat;background-position:center top;background-size:50%;
-  filter: blur(18px) saturate(.7);z-index:0;
+// quick view modal (simple)
+function showQuickView(product){
+  // small modal overlay
+  const overlay = document.createElement('div');
+  overlay.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:80;padding:20px';
+  overlay.innerHTML = `
+    <div style="max-width:900px;width:100%;background:white;border-radius:14px;padding:20px;box-shadow:var(--shadow);color:#111">
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div style="flex:0 0 420px;border-radius:10px;overflow:hidden;background:#fafafa;padding:14px;display:flex;align-items:center;justify-content:center">
+          <img src="${product.image}" alt="${escapeHtml(product.name)}" style="max-width:100%;height:100%;object-fit:contain" />
+        </div>
+        <div style="flex:1;min-width:240px">
+          <h3 style="margin:0 0 6px">${escapeHtml(product.name)}</h3>
+          <div style="color:var(--muted);margin-bottom:12px">${escapeHtml(product.description)}</div>
+          <div style="font-weight:900;font-size:22px;margin-bottom:12px">${product.price.toFixed(2)}€</div>
+          <div style="display:flex;gap:10px">
+            <button id="orderNow" class="btn btn-primary">Commander via Instagram</button>
+            <button id="closeQV" class="btn btn-outline">Fermer</button>
+          </div>
+          <div style="margin-top:14px;color:var(--muted)">Stock : ${product.stock}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('closeQV').onclick = ()=> overlay.remove();
+  document.getElementById('orderNow').onclick = ()=> { overlay.remove(); orderViaInstagram(product); };
 }
 
-/* ensure content sits above background overlays */
-main{position:relative;z-index:5}
-
-/* ---------- Products grid ---------- */
-.grid{
-  margin-top:20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:var(--gap);
-  align-items:start;
-  margin-bottom:48px;
+// order: build message, copy and open instagram
+function orderViaInstagram(product){
+  const message = `Bonjour, je souhaite commander :\n- ${product.name} x1 → ${product.price.toFixed(2)}€\n\nNom : \nTéléphone : \nAdresse (optionnel) :\n\nMerci !`;
+  copyToClipboard(message).then(()=>{
+    toast('Message copié ✅ — ouverture Instagram...');
+    window.open('https://www.instagram.com/cramponsdirect/','_blank','noopener');
+  }).catch(()=>{
+    alert('Impossible de copier automatiquement. Le message suivant est prêt :\n\n' + message);
+    window.open('https://www.instagram.com/cramponsdirect/','_blank','noopener');
+  });
 }
 
-/* card : 3D tilt + cinematic zoom */
-.card{
-  background:var(--card-bg);
-  border-radius:var(--radius);
-  padding:18px;
-  box-shadow:var(--shadow);
-  transition:transform .35s cubic-bezier(.2,.9,.2,1),box-shadow .35s;
-  transform-style:preserve-3d;
-  overflow:hidden;
-  display:flex;flex-direction:column;
-  min-height:420px;
-  position:relative;
+// small toast
+function toast(txt, ms=1500){
+  const el = document.createElement('div');
+  el.textContent = txt;
+  el.style = 'position:fixed;right:18px;bottom:18px;background:rgba(0,0,0,0.85);color:white;padding:10px 14px;border-radius:10px;font-weight:700;z-index:9999';
+  document.body.appendChild(el);
+  setTimeout(()=> el.style.opacity='0', ms-400);
+  setTimeout(()=> el.remove(), ms);
 }
-.card:hover{box-shadow: 0 30px 60px rgba(3,10,30,0.14);}
 
-/* media area */
-.card .media{
-  height:340px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#fff,#f6f6f6);display:flex;align-items:center;justify-content:center;
-  perspective:1200px;
+// copy helper
+function copyToClipboard(text){
+  if(navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  return new Promise((resolve, reject)=>{
+    const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); ta.remove(); resolve(); } catch(e){ ta.remove(); reject(e) }
+  });
 }
-.card .photo{width:100%;height:100%;object-fit:contain;transition:transform .75s cubic-bezier(.2,.9,.2,1);transform-origin:center center;}
 
-/* meta */
-.meta{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-top:12px}
-.meta .title{font-weight:800;font-size:16px}
-.meta .brand{font-weight:700;color:var(--muted)}
-.price{font-weight:900;font-size:20px;margin-top:8px}
+// utils
+function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1) }
 
-/* footer */
-.card-footer{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);padding-top:10px}
+// wire nav
+document.querySelectorAll('.cat-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(btn.dataset.cat);
+  });
+});
 
-/* buttons */
-.btn{padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;border:1px solid rgba(0,0,0,0.08);background:transparent}
-.btn-primary{background:#111;color:#fff;border-color:#111}
-.btn-outline{background:transparent}
+// initial render
+renderProducts('nike');
 
-/* Hover state class toggled by JS for tilt */
-.card.is-hover{transform: translateY(-12px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));}
-.card.is-hover .photo{transform: scale(1.06) translateZ(12px)}
-
-/* responsive */
-@media (max-width:880px){
-  .hero h1{font-size:34px}
-  .card{min-height:380px}
-  .card .media{height:300px}
-}
-@media (max-width:520px){
-  .header-inner{padding:12px 0}
-  .hero{padding:28px 0}
-  .grid{gap:18px}
-  .card .media{height:220px}
-}
 
 

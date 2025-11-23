@@ -1,103 +1,154 @@
+// --- Data: Specific Models Requested ---
+const PRODUCTS = [
+    {
+        id: 1,
+        brand: 'nike',
+        name: 'Phantom GX2',
+        price: 80,
+        img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600', // Red/Generic Nike Placeholder
+        tag: 'Control'
+    },
+    {
+        id: 2,
+        brand: 'nike',
+        name: 'Phantom GX3',
+        price: 80,
+        img: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&q=80&w=600', // Nike Placeholder
+        tag: 'New'
+    },
+    {
+        id: 3,
+        brand: 'adidas',
+        name: 'Predator Elite',
+        price: 80,
+        img: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=600', // Adidas Placeholder
+        tag: 'Power'
+    },
+    {
+        id: 4,
+        brand: 'adidas',
+        name: 'Copa Pure II',
+        price: 80,
+        img: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&q=80&w=600', // Adidas Style
+        tag: 'Touch'
+    },
+    {
+        id: 5,
+        brand: 'newbalance',
+        name: 'Tekela',
+        price: 80,
+        img: 'https://images.unsplash.com/photo-1560769629-975e13f0c470?auto=format&fit=crop&q=80&w=600', // Generic Boot
+        tag: 'Agility'
+    }
+];
+
+// --- DOM Elements ---
+const grid = document.getElementById('productsGrid');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const yearSpan = document.getElementById('year');
+const menuBtn = document.getElementById('menuBtn');
+const navLinks = document.getElementById('navLinks');
+
+// --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
+    yearSpan.textContent = new Date().getFullYear();
+    renderProducts('all');
+    setupObservers();
+});
+
+// --- Mobile Menu ---
+menuBtn.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    const spans = menuBtn.querySelectorAll('span');
+    if (isOpen) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+        spans[0].style.transform = 'none';
+        spans[1].style.transform = 'none';
+    }
+});
+
+// Close menu on link click
+navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        const spans = menuBtn.querySelectorAll('span');
+        spans[0].style.transform = 'none';
+        spans[1].style.transform = 'none';
+    });
+});
+
+// --- Product Rendering & Filtering ---
+function renderProducts(filter) {
+    grid.innerHTML = '';
     
-    // 1. Dynamic Year Update
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const filteredProducts = filter === 'all' 
+        ? PRODUCTS 
+        : PRODUCTS.filter(p => p.brand === filter);
 
-    // 2. Mobile Menu Toggle
-    const menuBtn = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-    const hamburgerSpans = menuBtn.querySelectorAll('span');
-
-    menuBtn.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('open');
+    filteredProducts.forEach((product, index) => {
+        const card = document.createElement('div');
+        card.className = 'product-card reveal';
+        card.style.transitionDelay = `${index * 100}ms`; // Staggered animation
         
-        // Animate Hamburger
-        if (isOpen) {
-            hamburgerSpans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-            hamburgerSpans[1].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-        } else {
-            hamburgerSpans[0].style.transform = 'none';
-            hamburgerSpans[1].style.transform = 'none';
-        }
+        card.innerHTML = `
+            <div class="img-wrapper">
+                <img src="${product.img}" alt="${product.name}" loading="lazy">
+            </div>
+            <div class="card-info">
+                <span class="card-brand">${product.brand}</span>
+                <h3 class="card-title">${product.name}</h3>
+                <div class="card-footer">
+                    <span class="price">${product.price}€</span>
+                    <a href="#contact" class="add-btn" aria-label="Commander">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
     });
 
-    // Close menu when clicking a link
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('open');
-            hamburgerSpans[0].style.transform = 'none';
-            hamburgerSpans[1].style.transform = 'none';
-        });
+    // Re-trigger observer for new elements
+    setTimeout(setupObservers, 50);
+}
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderProducts(btn.dataset.brand);
     });
+});
 
-    // 3. Scroll Reveal Animation (Intersection Observer)
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
-    };
-
+// --- Scroll Animations (Intersection Observer) ---
+function setupObservers() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Animate only once
+                observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
-    // Target elements to animate
-    document.querySelectorAll('.fade-in-up, .reveal-text').forEach(el => {
-        observer.observe(el);
-    });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
 
-    // 4. Smooth Anchor Scrolling (Fallback for Safari/Older browsers)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                // Account for fixed header height
-                const headerOffset = 80; 
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-        });
-    });
-
-    // 5. Contact Form Handling (Simulation)
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const btn = contactForm.querySelector('button');
-            const originalText = btn.textContent;
-            
-            btn.textContent = "Message Sent!";
-            btn.style.backgroundColor = "#10B981"; // Green success color
-            btn.style.color = "#fff";
-            
-            setTimeout(() => {
-                contactForm.reset();
-                btn.textContent = originalText;
-                btn.style.backgroundColor = "";
-                btn.style.color = "";
-            }, 3000);
-        });
-    }
-
-    // 6. Pricing Interaction
-    const pricingBtns = document.querySelectorAll('.pricing-card button');
-    pricingBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const planName = this.parentElement.querySelector('.plan-name').textContent;
-            alert(`You selected the ${planName}. Proceeding to checkout for €80.`);
-            // Here you would redirect to Stripe/PayPal
-        });
-    });
+// --- Contact Form Handling ---
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const originalText = btn.textContent;
+    
+    btn.textContent = 'Message Envoyé';
+    btn.style.background = '#111'; // Keep it elegant
+    
+    setTimeout(() => {
+        e.target.reset();
+        btn.textContent = originalText;
+    }, 3000);
 });
-

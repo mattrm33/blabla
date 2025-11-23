@@ -1,36 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crampons Direct</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CramponsDirect — Premium</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="cat-nike">
 
-<header>
-  <div class="logo">CRAMPONS<span>DIRECT</span></div>
-  <nav>
-    <ul>
-      <li data-cat="nike">Nike</li>
-      <li data-cat="adidas">Adidas</li>
-      <li data-cat="newbalance">New Balance</li>
-    </ul>
-  </nav>
-  <a href="https://instagram.com/" target="_blank" class="insta-btn">Instagram</a>
-</header>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo-pill">CD</div>
+        <div>
+          <div class="brand-title">CRAMPONS<span>DIRECT</span></div>
+          <div class="brand-sub">Performance • Précision • Confort</div>
+        </div>
+      </div>
 
-<section class="hero">
-  <h1>Joue comme les Pros.</h1>
-  <p>Les crampons qui changent ta performance.</p>
-</section>
+      <nav class="main-nav" aria-label="Catégories">
+        <button class="cat-btn active" data-cat="nike">Nike</button>
+        <button class="cat-btn" data-cat="adidas">Adidas</button>
+        <button class="cat-btn" data-cat="newbalance">New Balance</button>
+      </nav>
 
-<section class="product-grid" id="products"></section>
+      <div class="actions">
+        <a class="btn btn-outline insta" id="openInsta" href="https://www.instagram.com/cramponsdirect/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </header>
 
-<footer>
-  <p>© 2025 CramponsDirect — Contact via Instagram</p>
-</footer>
+  <main class="container">
+    <section class="hero">
+      <h1>Joue comme les Pros.</h1>
+      <p class="lead">Sélection premium — confort, contrôle et adhérence. Commande via Instagram.</p>
+    </section>
 
-<script src="app.js"></script>
+    <section class="grid" id="productsGrid" aria-live="polite">
+      <!-- Products injected by JS -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> CramponsDirect — Commande via Instagram</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
+

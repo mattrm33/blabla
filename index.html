@@ -1,66 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CramponsDirect — Premium</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crampons Direct - Vos crampons de foot</title>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body class="cat-nike"> <!-- default: nike; JS updates this when you click categories -->
+<body class="cat-nike">
 
-<header class="site-header">
-  <div class="header-inner container">
-    <div class="brand">
-      <div class="logo-pill">CD</div>
-      <div>
-        <div class="brand-title">CRAMPONS <span>DIRECT</span></div>
-        <div class="brand-sub">Performance • Précision • Confort</div>
-      </div>
+<header>
+    <div class="logo">CRAMPONS DIRECT</div>
+    <div class="header-buttons">
+        <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" class="social-btn tiktok-btn">
+            TikTok
+        </a>
+        <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="social-btn insta-btn">
+            Instagram
+        </a>
     </div>
-
-    <nav class="main-nav" aria-label="Catégories">
-      <button class="cat-btn active" data-cat="nike">Nike</button>
-      <button class="cat-btn" data-cat="adidas">Adidas</button>
-      <button class="cat-btn" data-cat="newbalance">New Balance</button>
-    </nav>
-
-    <div class="actions">
-      <a id="instaBtn" class="btn btn-insta" href="https://www.instagram.com/cramponsdirect/" target="_blank" rel="noopener">
-        <!-- Instagram icon (inline SVG) -->
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" style="vertical-align:middle;margin-right:8px;filter:drop-shadow(0 1px 0 rgba(0,0,0,0.06))">
-          <defs>
-            <linearGradient id="igG" x1="0" x2="1">
-              <stop offset="0" stop-color="#f58529"/><stop offset="0.5" stop-color="#dd2a7b"/><stop offset="1" stop-color="#515bd4"/>
-            </linearGradient>
-          </defs>
-          <rect width="24" height="24" rx="6" fill="url(#igG)"/>
-          <path d="M12 7.3A4.7 4.7 0 1 0 12 16.7 4.7 4.7 0 1 0 12 7.3z" fill="#fff" opacity="0.95"/>
-          <circle cx="17.5" cy="6.5" r="1.2" fill="#fff" opacity="0.95"/>
-        </svg>
-        <span>Instagram</span>
-      </a>
-    </div>
-  </div>
 </header>
 
-<main class="container">
-  <section class="hero">
-    <h1>Joue comme les Pros.</h1>
-    <p class="lead">Sélection premium — confort, contrôle et adhérence. Commande via Instagram.</p>
-  </section>
+<div class="hero">
+    <h1>Vos Crampons de Football Premium</h1>
+    <p>Les meilleures marques au meilleur prix - 80€</p>
+</div>
 
-  <section class="grid" id="productsGrid" aria-live="polite">
-    <!-- injected by app.js -->
-  </section>
-</main>
+<div class="filters">
+    <h2>Filtrer par marque :</h2>
+    <div class="filter-buttons">
+        <button class="filter-btn active" data-brand="all">Tous</button>
+        <button class="filter-btn" data-brand="nike">Nike</button>
+        <button class="filter-btn" data-brand="adidas">Adidas</button>
+        <button class="filter-btn" data-brand="newbalance">New Balance</button>
+    </div>
+</div>
 
-<footer class="site-footer">
-  <div class="container">
-    <p>© <span id="year"></span> CramponsDirect — Commande via Instagram</p>
-  </div>
+<div class="container">
+    <h2 class="section-title">Nos Crampons</h2>
+    <div class="products-grid" id="productsGrid">
+        <!-- Exemple produit avec lien Imgur -->
+        <div class="product-card" data-brand="nike">
+            <div class="product-image">
+                <img src="https://i.imgur.com/XXXXXXX.png" alt="Phantom GX2">
+            </div>
+            <div class="product-info">
+                <div class="product-brand">Nike</div>
+                <div class="product-name">Phantom GX2</div>
+                <div class="product-price">80€</div>
+                <button class="order-btn" onclick="showProduct('phantom-gx2')">Voir les détails</button>
+            </div>
+        </div>
+        <!-- Répétez le même modèle pour chaque crampon, changez le src vers Imgur et le nom -->
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Crampons Direct - Tous droits réservés</p>
 </footer>
 
-<script src="app.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
 

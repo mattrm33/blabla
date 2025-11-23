@@ -4,83 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crampons Direct | Elite Football Footwear</title>
-    <meta name="description" content="Premium football boots and custom anti-slip socks. Elite gear for elite players.">
+    <meta name="description" content="Professional football boots and custom anti-slip socks. Elite gear, minimalist design, maximum performance.">
     
-    <!-- Google Fonts: Inter (Professional, Clean, Modern) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
-    
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Open Graph / Social Media -->
+    <!-- Open Graph / Social -->
     <meta property="og:title" content="Crampons Direct">
     <meta property="og:description" content="Elite football boots available now.">
     <meta property="og:type" content="website">
+
+    <!-- Fonts: Inter (Professional, Clean) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- Navigation -->
-    <header class="header">
-        <div class="container header-container">
-            <a href="#" class="logo" onclick="app.router('home'); return false;">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <!-- Logo -->
+            <a href="#" class="logo" onclick="app.navigate('home'); return false;">
                 CRAMPONS<span class="logo-accent">DIRECT</span>
-                <div class="logo-line"></div>
+                <span class="logo-dot">.</span>
             </a>
 
-            <nav class="nav-menu">
-                <a href="#" class="nav-link" onclick="app.router('home'); return false;">Home</a>
-                <a href="#" class="nav-link" onclick="app.router('shop'); return false;">Boots</a>
-                <a href="#" class="nav-link" onclick="app.router('socks'); return false;">Custom Socks</a>
-                <a href="#" class="nav-link" onclick="app.router('about'); return false;">About</a>
-            </nav>
+            <!-- Desktop Menu -->
+            <ul class="nav-links">
+                <li><a href="#" onclick="app.navigate('home'); return false;">Home</a></li>
+                <li><a href="#" onclick="app.navigate('shop'); return false;">Boots</a></li>
+                <li><a href="#" onclick="app.navigate('socks'); return false;">Socks</a></li>
+                <li><a href="#" onclick="app.navigate('about'); return false;">About</a></li>
+            </ul>
 
-            <div class="header-actions">
+            <!-- Actions -->
+            <div class="nav-actions">
                 <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-sm btn-outline">Contact Us</a>
-                <button class="mobile-toggle" aria-label="Menu">
+                <div class="mobile-toggle" onclick="app.toggleMenu()">
                     <span></span>
                     <span></span>
-                </button>
+                </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Dynamic Content Area -->
-    <main id="app">
-        <!-- Content injected via script.js -->
+    <!-- Main Content Area (Dynamic) -->
+    <main id="app-root">
+        <!-- Content injected via JS -->
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-content">
             <div class="footer-brand">
-                <div class="logo logo-white">
-                    CRAMPONS<span class="logo-accent">DIRECT</span>
-                </div>
-                <p>Elite performance gear. No compromises.</p>
+                <h3>Crampons Direct</h3>
+                <p>Performance. Precision. Professionalism.</p>
             </div>
-            
             <div class="footer-socials">
-                <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="social-icon" aria-label="Instagram">
-                    <!-- Instagram SVG Icon -->
+                <a href="https://www.instagram.com/cramponsdirect/" target="_blank" aria-label="Instagram">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 </a>
-                <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" class="social-icon" aria-label="TikTok">
-                    <!-- TikTok SVG Icon -->
+                <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" aria-label="TikTok">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
                 </a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Crampons Direct. All rights reserved.</p>
+        <div class="copyright">
+            &copy; 2025 Crampons Direct. All Rights Reserved.
         </div>
     </footer>
 
     <!-- TikTok Embed Script -->
     <script async src="https://www.tiktok.com/embed.js"></script>
-    
-    <!-- Main Application Logic -->
+    <!-- Main Script -->
     <script src="script.js"></script>
 </body>
 </html>

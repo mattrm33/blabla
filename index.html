@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Velocity — Premium Gear for the Elite. Experience the future of performance.">
-    <meta name="theme-color" content="#ffffff">
-    <title>Velocity | Future of Performance</title>
-
-    <!-- Google Fonts: Inter for that clean, tech look -->
+    <title>Crampons Direct | Premium Football Gear</title>
+    <meta name="description" content="La référence des crampons de football. Nike, Adidas, New Balance. Prix unique 80€.">
+    
+    <!-- Open Graph / SEO -->
+    <meta property="og:title" content="Crampons Direct">
+    <meta property="og:description" content="Nike, Adidas, New Balance. Performance Premium. 80€.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&q=80">
+    
+    <!-- Fonts: Inter (Google Fonts) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
@@ -16,35 +20,30 @@
 </head>
 <body>
 
-    <!-- Background Ambient Animation -->
-    <div class="ambient-bg">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-    </div>
-
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-inner">
             <a href="#" class="brand">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Professional Minimalist Logo (SVG) -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span>Velocity</span>
+                <span>Crampons Direct</span>
             </a>
-
+            
             <div class="nav-links" id="navLinks">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#products">Products</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#contact" class="mobile-only">Contact</a>
+                <a href="#home">Accueil</a>
+                <a href="#about">Concept</a>
+                <a href="#products">Collection</a>
+                <a href="#pricing">Tarifs</a>
+                <a href="#contact">Contact</a>
             </div>
 
             <div class="nav-actions">
-                <a href="#contact" class="btn btn-sm btn-primary">Get Started</a>
-                <button class="hamburger" id="menuToggle" aria-label="Toggle menu">
+                <a href="#products" class="btn btn-sm btn-primary">Boutique</a>
+                <button class="hamburger" id="menuBtn" aria-label="Menu">
                     <span></span>
                     <span></span>
                 </button>
@@ -55,26 +54,14 @@
     <main>
         <!-- Hero Section -->
         <section id="home" class="hero">
-            <div class="container hero-grid">
-                <div class="hero-content reveal-text">
-                    <span class="pill">2025 Collection</span>
-                    <h1>Redefine Your <br><span class="gradient-text">Limits.</span></h1>
-                    <p>Engineered for those who refuse to settle. Experience the perfect synthesis of minimalist design and maximum performance.</p>
-                    <div class="hero-btns">
-                        <a href="#pricing" class="btn btn-primary">View Pricing</a>
-                        <a href="#about" class="btn btn-outline">Learn More</a>
-                    </div>
-                </div>
-                <div class="hero-visual fade-in-up delay-200">
-                    <!-- Abstract CSS 3D representation -->
-                    <div class="glass-card float">
-                        <div class="card-glow"></div>
-                        <div class="content-sim">
-                            <div class="line"></div>
-                            <div class="line short"></div>
-                            <div class="circle"></div>
-                        </div>
-                    </div>
+            <div class="hero-bg"></div>
+            <div class="container hero-content reveal">
+                <span class="pill-label">Collection 2025</span>
+                <h1>L'Élite à vos pieds.</h1>
+                <p>Performance absolue. Style inégalé. Les meilleurs modèles Nike, Adidas et New Balance.</p>
+                <div class="hero-btns">
+                    <a href="#products" class="btn btn-primary">Voir la collection</a>
+                    <a href="#about" class="btn btn-outline">En savoir plus</a>
                 </div>
             </div>
         </section>
@@ -82,117 +69,107 @@
         <!-- About Section -->
         <section id="about" class="section">
             <div class="container">
-                <div class="section-header center">
-                    <h2>Engineered Perfection</h2>
-                    <p>We strip away the non-essential to focus on what matters: your performance.</p>
+                <div class="section-header reveal">
+                    <h2>Le Concept</h2>
+                    <p>Nous simplifions l'accès à l'équipement professionnel. Pas de compromis.</p>
                 </div>
                 <div class="features-grid">
-                    <div class="feature-item fade-in-up">
-                        <div class="icon">⚡</div>
-                        <h3>Lightweight</h3>
-                        <p>Materials sourced from aerospace engineering.</p>
+                    <div class="feature-card reveal delay-1">
+                        <h3>Authenticité</h3>
+                        <p>Des modèles sélectionnés rigoureusement pour les joueurs exigeants.</p>
                     </div>
-                    <div class="feature-item fade-in-up delay-100">
-                        <div class="icon">🛡️</div>
-                        <h3>Durable</h3>
-                        <p>Built to withstand the harshest environments.</p>
+                    <div class="feature-card reveal delay-2">
+                        <h3>Performance</h3>
+                        <p>Technologies de pointe : Flyknit, Gripknit, HybridTouch.</p>
                     </div>
-                    <div class="feature-item fade-in-up delay-200">
-                        <div class="icon">💎</div>
-                        <h3>Premium</h3>
-                        <p>Hand-finished detailing on every single unit.</p>
+                    <div class="feature-card reveal delay-3">
+                        <h3>Simplicité</h3>
+                        <p>Un prix unique. Une transparence totale. Une livraison rapide.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Pricing Section -->
-        <section id="pricing" class="section bg-secondary">
+        <!-- Products Section -->
+        <section id="products" class="section bg-grey">
             <div class="container">
-                <div class="section-header center">
-                    <h2>Simple Pricing</h2>
-                    <p>One quality standard. Three ways to play.</p>
+                <div class="section-header reveal">
+                    <h2>La Collection</h2>
+                    <div class="filters">
+                        <button class="filter-btn active" data-brand="all">Tout</button>
+                        <button class="filter-btn" data-brand="nike">Nike</button>
+                        <button class="filter-btn" data-brand="adidas">Adidas</button>
+                        <button class="filter-btn" data-brand="newbalance">New Balance</button>
+                    </div>
                 </div>
                 
-                <div class="pricing-grid">
-                    <!-- Plan 1 -->
-                    <div class="pricing-card fade-in-up">
-                        <div class="plan-name">Starter Edition</div>
-                        <div class="price">€80<span>/mo</span></div>
-                        <ul class="features-list">
-                            <li>Basic Analytics</li>
-                            <li>Standard Support</li>
-                            <li>Cloud Access</li>
-                        </ul>
-                        <button class="btn btn-block btn-outline">Choose Starter</button>
-                    </div>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products injected via JS -->
+                </div>
+            </div>
+        </section>
 
-                    <!-- Plan 2 (Featured) -->
-                    <div class="pricing-card featured fade-in-up delay-100">
-                        <div class="badge">Most Popular</div>
-                        <div class="plan-name">Pro Edition</div>
-                        <div class="price">€80<span>/mo</span></div>
-                        <ul class="features-list">
-                            <li>Advanced Analytics</li>
-                            <li>Priority Support</li>
-                            <li>Unlimited Cloud Access</li>
-                            <li>Team Collaboration</li>
+        <!-- Pricing Section -->
+        <section id="pricing" class="section">
+            <div class="container">
+                <div class="pricing-wrapper reveal">
+                    <div class="pricing-content">
+                        <h2>Tarification Unique</h2>
+                        <p>Pourquoi payer plus cher ? Chez Crampons Direct, nous avons standardisé le premium.</p>
+                        <ul class="pricing-features">
+                            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Toutes tailles disponibles</li>
+                            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Livraison suivie incluse</li>
+                            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Garantie conformité</li>
                         </ul>
-                        <button class="btn btn-block btn-primary">Choose Pro</button>
                     </div>
-
-                    <!-- Plan 3 -->
-                    <div class="pricing-card fade-in-up delay-200">
-                        <div class="plan-name">Elite Edition</div>
-                        <div class="price">€80<span>/mo</span></div>
-                        <ul class="features-list">
-                            <li>Custom Solutions</li>
-                            <li>24/7 Dedicated Agent</li>
-                            <li>API Access</li>
-                        </ul>
-                        <button class="btn btn-block btn-outline">Choose Elite</button>
+                    <div class="pricing-card">
+                        <div class="price-header">Prix Unique</div>
+                        <div class="price-amount">80€</div>
+                        <div class="price-sub">Pour n'importe quel modèle</div>
+                        <a href="#products" class="btn btn-primary btn-block">Choisir ma paire</a>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="container contact-layout">
-                <div class="contact-info fade-in-up">
-                    <h2>Get in Touch</h2>
-                    <p>Ready to elevate your game? Our team is ready to assist you.</p>
-                    <div class="social-links">
-                        <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </a>
-                        <a href="https://tiktok.com" target="_blank" aria-label="TikTok">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
-                        </a>
-                    </div>
+        <section id="contact" class="section bg-grey">
+            <div class="container contact-container reveal">
+                <div class="contact-text">
+                    <h2>Contactez-nous</h2>
+                    <p>Une question sur une pointure ? Besoin d'un conseil technique ? Notre équipe vous répond sous 24h.</p>
                 </div>
-                <form class="contact-form fade-in-up delay-100" id="contactForm">
+                <form id="contactForm" class="contact-form">
                     <div class="form-group">
-                        <input type="email" placeholder="Email Address" required>
+                        <input type="text" placeholder="Votre Nom" required>
                     </div>
                     <div class="form-group">
-                        <textarea rows="4" placeholder="Your Message" required></textarea>
+                        <input type="email" placeholder="Email" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <div class="form-group">
+                        <textarea rows="4" placeholder="Votre Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
                 </form>
             </div>
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="site-footer">
-        <div class="container footer-content">
-            <div class="footer-logo">
-                <span>Velocity</span>
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <h3>CD</h3>
+                <p>&copy; <span id="year"></span> Crampons Direct.</p>
             </div>
-            <p class="copyright">&copy; <span id="year"></span> Velocity Inc. All rights reserved.</p>
+            <div class="footer-socials">
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://tiktok.com" target="_blank" aria-label="TikTok">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+                </a>
+            </div>
         </div>
     </footer>
 

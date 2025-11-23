@@ -1,336 +1,341 @@
-/* --- CSS Reset & Variables --- */
-:root {
-    --color-white: #ffffff;
-    --color-bg-light: #f8f9fa;
-    --color-blue-dark: #0a2558; /* Premium Navy */
-    --color-blue-accent: #2563eb; /* Vibrant Blue */
-    --color-red: #dc2626; /* Professional Red */
-    --color-text-main: #111827;
-    --color-text-muted: #6b7280;
-    
-    --font-main: 'Inter', sans-serif;
-    
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/**
+ * Crampons Direct - Core Application Logic
+ * Implements a lightweight SPA router and dynamic rendering.
+ */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    font-family: var(--font-main);
-    background-color: var(--color-white);
-    color: var(--color-text-main);
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-}
-
-a { text-decoration: none; color: inherit; }
-button { font-family: inherit; cursor: pointer; border: none; background: none; }
-img { max-width: 100%; display: block; }
-
-/* --- Typography --- */
-h1, h2, h3 { font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; }
-h1 { font-size: 3.5rem; }
-h2 { font-size: 2.25rem; margin-bottom: 1rem; }
-h3 { font-size: 1.5rem; }
-p { margin-bottom: 1rem; color: var(--color-text-muted); }
-
-/* --- Components --- */
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 28px;
-    font-weight: 600;
-    border-radius: 4px;
-    transition: var(--transition);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.875rem;
-}
-
-.btn-primary {
-    background-color: var(--color-blue-dark);
-    color: var(--color-white);
-}
-.btn-primary:hover {
-    background-color: var(--color-blue-accent);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-red {
-    background-color: var(--color-red);
-    color: var(--color-white);
-}
-.btn-red:hover { background-color: #b91c1c; transform: translateY(-2px); }
-
-.btn-outline {
-    border: 2px solid var(--color-blue-dark);
-    color: var(--color-blue-dark);
-}
-.btn-outline:hover {
-    background-color: var(--color-blue-dark);
-    color: var(--color-white);
-}
-
-.btn-sm { padding: 8px 16px; font-size: 0.75rem; }
-
-/* --- Header & Logo --- */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    height: 80px;
-    display: flex;
-    align-items: center;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--color-blue-dark);
-    position: relative;
-    letter-spacing: -0.05em;
-}
-
-.logo-accent { color: var(--color-red); }
-.logo-white { color: var(--color-white); }
-.logo-line {
-    width: 100%;
-    height: 3px;
-    background: var(--color-blue-dark);
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-}
-
-.nav-menu { display: flex; gap: 32px; }
-.nav-link {
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--color-text-main);
-    transition: color 0.2s;
-    position: relative;
-}
-.nav-link:hover { color: var(--color-blue-accent); }
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--color-red);
-    transition: width 0.3s;
-}
-.nav-link:hover::after { width: 100%; }
-
-.mobile-toggle { display: none; flex-direction: column; gap: 6px; }
-.mobile-toggle span { width: 24px; height: 2px; background: var(--color-blue-dark); }
-
-/* --- Hero Section --- */
-.hero {
-    min-height: 90vh;
-    display: flex;
-    align-items: center;
-    background: linear-gradient(135deg, #f8f9fa 0%, #eef2ff 100%);
-    position: relative;
-    overflow: hidden;
-    padding-top: 80px;
-}
-
-/* Background Abstract Shape */
-.hero::before {
-    content: '';
-    position: absolute;
-    top: -10%;
-    right: -10%;
-    width: 50vw;
-    height: 50vw;
-    background: radial-gradient(circle, rgba(37,99,235,0.05) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 50%;
-    z-index: 0;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 600px;
-    animation: fadeSlideUp 0.8s ease-out;
-}
-
-.hero-tag {
-    color: var(--color-red);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-    display: block;
-}
-
-/* --- Product Grid & Filters --- */
-.section { padding: 100px 0; }
-.bg-light { background-color: var(--color-bg-light); }
-
-.filters {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 48px;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    padding: 10px 24px;
-    border-radius: 50px;
-    border: 1px solid #e5e7eb;
-    background: var(--color-white);
-    color: var(--color-text-muted);
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.filter-btn:hover, .filter-btn.active {
-    background: var(--color-blue-dark);
-    color: var(--color-white);
-    border-color: var(--color-blue-dark);
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 40px;
-}
-
-.product-card {
-    background: var(--color-white);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: var(--transition);
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-}
-
-.card-image-wrapper {
-    background: #f1f5f9;
-    padding-bottom: 80%; /* Aspect Ratio */
-    position: relative;
-    overflow: hidden;
-}
-
-.card-image-wrapper img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.product-card:hover .card-image-wrapper img { transform: scale(1.08); }
-
-.card-details { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; }
-.card-brand { font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 600; }
-.card-title { font-size: 1.125rem; margin: 8px 0; color: var(--color-blue-dark); }
-.card-price { font-size: 1.25rem; font-weight: 700; color: var(--color-text-main); margin-top: auto; }
-.card-action { margin-top: 16px; opacity: 0; transform: translateY(10px); transition: var(--transition); }
-.product-card:hover .card-action { opacity: 1; transform: translateY(0); }
-
-/* --- Product Detail View --- */
-.detail-view { padding-top: 40px; animation: fadeIn 0.5s ease; }
-.back-link { margin-bottom: 20px; display: inline-block; cursor: pointer; color: var(--color-text-muted); }
-.back-link:hover { color: var(--color-blue-dark); }
-
-.detail-layout {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 60px;
-    align-items: start;
-}
-
-.detail-media { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: var(--shadow-md); }
-.detail-info h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--color-blue-dark); }
-.detail-price { font-size: 2rem; font-weight: 700; color: var(--color-red); margin-bottom: 30px; }
-.detail-desc { font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 40px; }
-
-/* Custom Socks Section */
-.socks-showcase {
-    background-color: var(--color-blue-dark);
-    color: var(--color-white);
-    border-radius: 20px;
-    padding: 60px;
-    text-align: center;
-    margin: 40px 0;
-}
-.socks-showcase h2 { color: var(--color-white); }
-.socks-showcase p { color: rgba(255,255,255,0.8); }
-
-/* Footer */
-.footer { background: var(--color-text-main); color: var(--color-white); padding-top: 60px; margin-top: 80px; }
-.footer-content { display: flex; justify-content: space-between; align-items: center; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.footer-socials { display: flex; gap: 20px; }
-.social-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; transition: var(--transition); color: white; }
-.social-icon:hover { background: var(--color-white); color: var(--color-text-main); }
-.social-icon svg { width: 20px; height: 20px; }
-.footer-bottom { padding: 20px 0; text-align: center; font-size: 0.875rem; color: rgba(255,255,255,0.4); }
-
-/* --- Animations --- */
-@keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* --- Mobile Responsive --- */
-@media (max-width: 768px) {
-    h1 { font-size: 2.5rem; }
-    .nav-menu {
-        display: none;
-        position: fixed;
-        top: 80px;
-        left: 0;
-        width: 100%;
-        background: var(--color-white);
-        flex-direction: column;
-        padding: 20px;
-        box-shadow: var(--shadow-lg);
-        text-align: center;
+// --- Product Database ---
+const products = [
+    {
+        id: "nike-phantom-gx2",
+        brand: "nike",
+        name: "Nike Phantom GX2",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&q=80&w=800", // Placeholder - Replace with Imgur
+        desc: "Designed for the creative playmaker. The Phantom GX2 offers precise touch and agility with its Gripknit technology.",
+        videos: []
+    },
+    {
+        id: "nike-phantom-gx3",
+        brand: "nike",
+        name: "Nike Phantom GX3",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "The next evolution in control. Enhanced stud configuration for rotational traction.",
+        videos: []
+    },
+    {
+        id: "nike-mercurial-gx3",
+        brand: "nike",
+        name: "Nike Mercurial GX3 Elite",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Pure speed. Lightweight vaporposite upper ensures you are the fastest on the pitch.",
+        videos: ["7574545441858129174", "7574185891049131286"] // TikTok IDs
+    },
+    {
+        id: "nike-phantom-luna",
+        brand: "nike",
+        name: "Nike Phantom Luna Elite",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Anatomically designed for comfort and 360-degree rotational traction.",
+        videos: ["7574151020847140118"]
+    },
+    {
+        id: "adidas-predator",
+        brand: "adidas",
+        name: "Adidas Predator Elite",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1586525198428-225f6f12c240?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "The goal scorer's choice. Strikeskin fins provide ultimate ball manipulation.",
+        videos: []
+    },
+    {
+        id: "adidas-copa",
+        brand: "adidas",
+        name: "Adidas Copa Pure II",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Timeless leather touch meets modern lightweight performance.",
+        videos: []
+    },
+    {
+        id: "nb-tekela",
+        brand: "newbalance",
+        name: "New Balance Tekela",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1562183241-b937e95585b6?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Amplify your senses. The Tekela provides unrivaled stability and control.",
+        videos: []
+    },
+    {
+        id: "adidas-f50",
+        brand: "adidas",
+        name: "Adidas F50",
+        price: 80,
+        img: "https://images.unsplash.com/photo-1529815488161-0f1f924e6b12?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "The icon returns. Engineered for speed with a Sprintframe outsole.",
+        videos: ["7574545441858129174"]
     }
-    .nav-menu.active { display: flex; }
-    .mobile-toggle { display: flex; }
-    .detail-layout { grid-template-columns: 1fr; gap: 30px; }
-    .header-actions .btn { display: none; } /* Hide CTA on mobile nav bar to save space */
-}
+];
+
+// --- Router & App Logic ---
+const app = {
+    container: document.getElementById('app'),
+    
+    // Initialize
+    init: function() {
+        this.setupEventListeners();
+        this.router('home'); // Default route
+    },
+
+    // Navigation Logic
+    router: function(route, param = null) {
+        window.scrollTo(0, 0);
+        const mobileMenu = document.querySelector('.nav-menu');
+        mobileMenu.classList.remove('active'); // Close menu on navigate
+
+        switch(route) {
+            case 'home':
+                this.renderHome();
+                break;
+            case 'shop':
+                this.renderShop('all');
+                break;
+            case 'product':
+                this.renderProductDetail(param);
+                break;
+            case 'socks':
+                this.renderSocks();
+                break;
+            case 'about':
+                this.renderAbout();
+                break;
+            default:
+                this.renderHome();
+        }
+    },
+
+    // --- Page Renderers ---
+
+    renderHome: function() {
+        // Hero Section + Featured Grid
+        this.container.innerHTML = `
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <span class="hero-tag">Official Store</span>
+                        <h1 class="text-blue">DOMINATE <br> <span style="color:var(--color-red)">THE PITCH.</span></h1>
+                        <p style="font-size: 1.25rem; margin: 20px 0 30px;">
+                            Elite football boots and custom anti-slip socks. 
+                            Professional gear for those who demand the best.
+                        </p>
+                        <div style="display:flex; gap:16px;">
+                            <button onclick="app.router('shop')" class="btn btn-primary">Shop Boots</button>
+                            <button onclick="app.router('socks')" class="btn btn-outline">Custom Socks</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <div class="container">
+                    <h2>Latest Arrivals</h2>
+                    <div class="product-grid" id="home-grid">
+                        <!-- Top 4 products injected here -->
+                    </div>
+                </div>
+            </section>
+        `;
+        
+        // Render top 4 products
+        this.renderGrid(products.slice(0, 4), document.getElementById('home-grid'));
+    },
+
+    renderShop: function(filterType) {
+        this.container.innerHTML = `
+            <section class="section bg-light" style="min-height:80vh;">
+                <div class="container">
+                    <div style="text-align:center; margin-bottom: 40px;">
+                        <h2>Professional Footwear</h2>
+                        <p>All boots priced at €80. Select your weapon.</p>
+                    </div>
+
+                    <div class="filters">
+                        <button class="filter-btn ${filterType === 'all' ? 'active' : ''}" onclick="app.filterShop('all')">All Brands</button>
+                        <button class="filter-btn ${filterType === 'nike' ? 'active' : ''}" onclick="app.filterShop('nike')">Nike</button>
+                        <button class="filter-btn ${filterType === 'adidas' ? 'active' : ''}" onclick="app.filterShop('adidas')">Adidas</button>
+                        <button class="filter-btn ${filterType === 'newbalance' ? 'active' : ''}" onclick="app.filterShop('newbalance')">New Balance</button>
+                    </div>
+
+                    <div class="product-grid" id="shop-grid"></div>
+                </div>
+            </section>
+        `;
+
+        const filtered = filterType === 'all' ? products : products.filter(p => p.brand === filterType);
+        this.renderGrid(filtered, document.getElementById('shop-grid'));
+    },
+
+    renderGrid: function(items, targetElement) {
+        if(items.length === 0) {
+            targetElement.innerHTML = '<p style="text-align:center; width:100%;">No products found in this category.</p>';
+            return;
+        }
+
+        targetElement.innerHTML = items.map(product => `
+            <div class="product-card" onclick="app.router('product', '${product.id}')">
+                <div class="card-image-wrapper">
+                    <img src="${product.img}" alt="${product.name}" loading="lazy">
+                </div>
+                <div class="card-details">
+                    <span class="card-brand">${product.brand}</span>
+                    <h3 class="card-title">${product.name}</h3>
+                    <div class="card-price">€${product.price}</div>
+                    <div class="card-action">
+                        <button class="btn btn-primary" style="width:100%">View Details</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    },
+
+    renderProductDetail: function(id) {
+        const product = products.find(p => p.id === id);
+        if(!product) return this.router('shop');
+
+        // Logic for Media (Video vs Image)
+        let mediaHtml = '';
+        if(product.videos && product.videos.length > 0) {
+            // Create TikTok Embeds
+            mediaHtml = product.videos.map(vid => `
+                <div style="margin-bottom:20px; border-radius:12px; overflow:hidden; border:1px solid #eee;">
+                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cramponsdirect/video/${vid}" data-video-id="${vid}" style="max-width: 605px;min-width: 325px;" > 
+                        <section> <a target="_blank" href="https://www.tiktok.com/@cramponsdirect/video/${vid}">@cramponsdirect</a> </section> 
+                    </blockquote>
+                </div>
+            `).join('');
+        } else {
+            mediaHtml = `<img src="${product.img}" alt="${product.name}" style="width:100%; border-radius:12px;">`;
+        }
+
+        this.container.innerHTML = `
+            <div class="container detail-view">
+                <div class="back-link" onclick="app.router('shop')">← Back to Shop</div>
+                <div class="detail-layout">
+                    <div class="detail-media">
+                        <div style="padding: 20px;">
+                            ${mediaHtml}
+                        </div>
+                    </div>
+                    <div class="detail-info">
+                        <span style="text-transform:uppercase; color:var(--color-blue-accent); font-weight:700;">${product.brand}</span>
+                        <h1>${product.name}</h1>
+                        <div class="detail-price">€${product.price}</div>
+                        <p class="detail-desc">${product.desc}</p>
+                        
+                        <div style="background:#f8f9fa; padding:20px; border-radius:8px; border:1px solid #eee;">
+                            <p style="font-size:0.9rem; margin-bottom:10px;"><strong>Ready to dominate?</strong></p>
+                            <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-red" style="width:100%; justify-content:center;">
+                                Order on Instagram
+                            </a>
+                            <p style="font-size:0.75rem; margin-top:10px; text-align:center;">
+                                Send us a DM with your size and shipping address.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // IMPORTANT: Reload TikTok script to render new embeds
+        this.reloadTikTok();
+    },
+
+    renderSocks: function() {
+        this.container.innerHTML = `
+            <section class="section">
+                <div class="container">
+                    <div class="socks-showcase">
+                        <h2>Custom Anti-Slip Socks</h2>
+                        <p style="max-width:600px; margin:10px auto 30px;">
+                            Professional grip technology customized for your team. 
+                            Prevent blisters, improve agility, and represent your club.
+                        </p>
+                        <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-white" style="background:#fff; color:#0a2558;">Start Custom Order</a>
+                    </div>
+                    
+                    <div class="detail-layout" style="margin-top:60px;">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1515542706656-8e6ef17a1521?auto=format&fit=crop&q=80&w=800" style="border-radius:12px;" alt="Socks">
+                        </div>
+                        <div style="padding-top:20px;">
+                            <h3>Why Custom Grip Socks?</h3>
+                            <ul style="margin:20px 0 30px 20px; line-height:2;">
+                                <li><strong>Club Identity:</strong> Add your team logo and colors.</li>
+                                <li><strong>Performance:</strong> Medical-grade silicone grip pads.</li>
+                                <li><strong>Comfort:</strong> Breathable, moisture-wicking fabric.</li>
+                            </ul>
+                            <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-primary">DM for Pricing</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+    },
+
+    renderAbout: function() {
+        this.container.innerHTML = `
+            <section class="section container">
+                <div style="max-width:800px; margin:0 auto; text-align:center;">
+                    <h1 class="text-blue">About Us</h1>
+                    <p style="font-size:1.2rem; margin:40px 0;">
+                        <strong>Crampons Direct</strong> is the premier destination for serious footballers. 
+                        We strip away the noise to provide exactly what you need: top-tier boots and 
+                        performance accessories at a fair price.
+                    </p>
+                    <p>
+                        Based in France, shipping globally. We believe that elite gear should be accessible 
+                        to every player who has the drive to succeed.
+                    </p>
+                    <div style="margin-top:40px;">
+                        <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-outline">Follow our Journey</a>
+                    </div>
+                </div>
+            </section>
+        `;
+    },
+
+    // --- Helpers ---
+
+    filterShop: function(brand) {
+        this.renderShop(brand);
+    },
+
+    reloadTikTok: function() {
+        // Remove old script if exists
+        const oldScript = document.querySelector('script[src*="tiktok.com"]');
+        if (oldScript) oldScript.remove();
+
+        // Create new script tag
+        const script = document.createElement('script');
+        script.src = "https://www.tiktok.com/embed.js";
+        script.async = true;
+        document.body.appendChild(script);
+    },
+
+    setupEventListeners: function() {
+        // Mobile Menu Toggle
+        const toggle = document.querySelector('.mobile-toggle');
+        const menu = document.querySelector('.nav-menu');
+        
+        toggle.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+    }
+};
+
+// Start the Application
+document.addEventListener('DOMContentLoaded', () => {
+    app.init();
+});

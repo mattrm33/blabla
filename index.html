@@ -1,58 +1,93 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crampons Direct - Vos crampons de foot</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crampons Direct — Premium Football Gear</title>
+  <meta name="description" content="Crampons Direct — Boutique premium de crampons de football, Nike, Adidas et New Balance. Confort, performance et style.">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="cat-nike">
+<body>
 
-<header>
-    <div class="logo">CRAMPONS DIRECT</div>
-    <div class="header-buttons">
-        <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" class="social-btn tiktok-btn">TikTok</a>
-        <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="social-btn insta-btn">Instagram</a>
+<header class="site-header">
+  <div class="header-inner container">
+    <div class="brand">
+      <div class="logo-pill">CD</div>
+      <div class="brand-text">
+        <h1 class="brand-title">Crampons <span>Direct</span></h1>
+        <p class="brand-sub">Performance • Précision • Confort</p>
+      </div>
     </div>
+    <nav class="main-nav">
+      <a href="#home" class="nav-link">Accueil</a>
+      <a href="#products" class="nav-link">Boutique</a>
+      <a href="#about" class="nav-link">À propos</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="social-btn insta-btn">Instagram</a>
+      <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" class="social-btn tiktok-btn">TikTok</a>
+    </div>
+  </div>
 </header>
 
-<div class="hero">
-    <h1>Vos Crampons de Football Premium</h1>
-    <p>Les meilleures marques au meilleur prix - 80€</p>
-</div>
-
-<div class="filters">
-    <h2>Filtrer par marque :</h2>
-    <div class="filter-buttons">
-        <button class="filter-btn active" data-brand="all">Tous</button>
-        <button class="filter-btn" data-brand="nike">Nike</button>
-        <button class="filter-btn" data-brand="adidas">Adidas</button>
-        <button class="filter-btn" data-brand="newbalance">New Balance</button>
+<main>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content container">
+      <h2 class="hero-title">Jouez comme les pros</h2>
+      <p class="hero-subtitle">Découvrez notre sélection premium de crampons de football, Nike, Adidas et New Balance.</p>
+      <a href="#products" class="btn btn-primary">Découvrir la boutique</a>
     </div>
-</div>
+  </section>
 
-<div class="container">
+  <!-- Products Section -->
+  <section id="products" class="products-section container">
     <h2 class="section-title">Nos Crampons</h2>
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-brand="all">Tous</button>
+      <button class="filter-btn" data-brand="nike">Nike</button>
+      <button class="filter-btn" data-brand="adidas">Adidas</button>
+      <button class="filter-btn" data-brand="newbalance">New Balance</button>
+    </div>
     <div class="products-grid" id="productsGrid">
-        <!-- Les produits seront injectés par JS -->
+      <!-- Produits injectés par JS -->
     </div>
-</div>
+  </section>
 
-<!-- Modal produit -->
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeProduct()">&times;</span>
-        <div id="productDetails"></div>
-    </div>
-</div>
+  <!-- About Section -->
+  <section id="about" class="about-section container">
+    <h2 class="section-title">À propos de nous</h2>
+    <p>Chez Crampons Direct, nous sélectionnons uniquement les meilleurs crampons pour améliorer vos performances sur le terrain. Notre mission est de combiner confort, style et performance pour tous les footballeurs exigeants.</p>
+  </section>
 
-<footer>
-    <p>&copy; <span id="year"></span> Crampons Direct - Tous droits réservés</p>
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section container">
+    <h2 class="section-title">Contactez-nous</h2>
+    <form id="contactForm">
+      <div class="form-group">
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span id="year"></span> Crampons Direct — Tous droits réservés</p>
+  </div>
 </footer>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
-

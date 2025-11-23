@@ -1,32 +1,225 @@
-let products = [
-  { name:"Nike Phantom III Elite", brand:"nike", price:80,
-img:"https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/f6b00c2d-fc96-421b-a4d7-2a34429f8d28/phantom-gx-ii-elite-fg-football-boot-bStMCx.png"},
+/* app.js
+   - products data
+   - render products per category
+   - 3D tilt + cinematic zoom on hover
+   - Instagram contact button copies order message and opens profile
+*/
 
-  { name:"Adidas Predator Elite", brand:"adidas", price:80,
-img:"https://assets.adidas.com/images/w_600,f_auto,q_auto/0c36ecc23c304e3eb33caca701403824_9366/Predator_Elite_FG_Black_IE1804_01_standard.jpg"},
-
-  { name:"Adidas Copa Pure III", brand:"adidas", price:80,
-img:"https://assets.adidas.com/images/w_600,f_auto,q_auto/1d529c9cb3c444edbde6050531b203c2_9366/Copa_Pure_III_FG_Black_GW4968_01_standard.jpg"},
-
-  { name:"New Balance Tekela", brand:"newbalance", price:80,
-img:"https://nb.scene7.com/is/image/NB/msplsfd4_nb_02_i?$pdpflexf2$"},
+// PRODUCTS (price = 80€ each)
+const PRODUCTS = [
+  {
+    id: 'p-nike-1',
+    name: 'Nike Phantom III Elite',
+    brand: 'nike',
+    price: 80,
+    stock: 10,
+    image: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/f6b00c2d-fc96-421b-a4d7-2a34429f8d28/phantom-gx-ii-elite-fg-football-boot-bStMCx.png',
+    description: 'Contrôle très précis, semelle performante.'
+  },
+  {
+    id: 'p-adidas-1',
+    name: 'Adidas Predator Elite',
+    brand: 'adidas',
+    price: 80,
+    stock: 5,
+    image: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/0c36ecc23c304e3eb33caca701403824_9366/Predator_Elite_FG_Black_IE1804_01_standard.jpg',
+    description: 'Adhérence et puissance sur tous terrains.'
+  },
+  {
+    id: 'p-adidas-2',
+    name: 'Adidas Copa Pure III',
+    brand: 'adidas',
+    price: 80,
+    stock: 5,
+    image: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/1d529c9cb3c444edbde6050531b203c2_9366/Copa_Pure_III_FG_Black_GW4968_01_standard.jpg',
+    description: 'Touche de balle traditionnelle et confort.'
+  },
+  {
+    id: 'p-nb-1',
+    name: 'New Balance Tekela',
+    brand: 'newbalance',
+    price: 80,
+    stock: 6,
+    image: 'https://nb.scene7.com/is/image/NB/msplsfd4_nb_02_i?$pdpflexf2$',
+    description: 'Légèreté et traction dynamique.'
+  }
 ];
 
-const container = document.getElementById("products");
+const productsGrid = document.getElementById('productsGrid');
+const catButtons = document.querySelectorAll('.cat-btn');
+const yearSpan = document.getElementById('year');
+yearSpan.textContent = new Date().getFullYear();
 
-function display(brand="nike"){
-  container.innerHTML = "";
-  products.filter(p=>p.brand===brand).forEach(p=>{
-    container.innerHTML += `
-      <div class="card">
-        <img src="${p.img}">
-        <h3>${p.name}</h3>
-        <p class="price">${p.price}€</p>
-      </div>`;
+let currentCategory = 'nike';
+
+// render products for a brand
+function renderProducts(brand = 'nike') {
+  currentCategory = brand;
+  // set body class for background
+  document.body.classList.remove('cat-nike', 'cat-adidas', 'cat-newbalance');
+  document.body.classList.add(`cat-${brand}`);
+
+  // set active button
+  catButtons.forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === brand);
+  });
+
+  productsGrid.innerHTML = PRODUCTS
+    .filter(p => p.brand === brand)
+    .map(p => productCardHTML(p))
+    .join('');
+
+  attachCardListeners();
+}
+
+// product card html
+function productCardHTML(p){
+  return `
+    <article class="card" data-id="${p.id}">
+      <div class="media">
+        <img class="photo" src="${p.image}" alt="${escapeHtml(p.name)}" />
+      </div>
+
+      <div class="meta">
+        <div>
+          <div class="title">${escapeHtml(p.name)}</div>
+          <div class="brand">${capitalize(p.brand)}</div>
+        </div>
+        <div class="price">${p.price.toFixed(2)}€</div>
+      </div>
+
+      <p class="small" style="color:var(--muted);margin-top:10px">${escapeHtml(p.description)}</p>
+
+      <div class="card-footer">
+        <div style="font-size:13px;color:var(--muted)">${p.stock} en stock</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-outline" data-action="view" data-id="${p.id}">Voir</button>
+          <button class="btn btn-primary" data-action="order" data-id="${p.id}">Commander</button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// attach hover tilt & buttons
+function attachCardListeners(){
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card=>{
+    const media = card.querySelector('.media');
+    const photo = card.querySelector('.photo');
+
+    // mouse move for 3D tilt
+    const onMove = (e) => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const rx = (-dy / rect.height) * 8; // tilt X
+      const ry = (dx / rect.width) * 10; // tilt Y
+      card.style.setProperty('--rx', rx + 'deg');
+      card.style.setProperty('--ry', ry + 'deg');
+    };
+
+    const onEnter = (e) => {
+      card.classList.add('is-hover');
+      card.addEventListener('mousemove', onMove);
+    };
+    const onLeave = (e) => {
+      card.classList.remove('is-hover');
+      card.style.setProperty('--rx','0deg');
+      card.style.setProperty('--ry','0deg');
+      card.removeEventListener('mousemove', onMove);
+    };
+    card.addEventListener('mouseenter', onEnter);
+    card.addEventListener('mouseleave', onLeave);
+
+    // buttons
+    card.querySelectorAll('[data-action]').forEach(btn=>{
+      btn.onclick = (ev) => {
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        const product = PRODUCTS.find(x => x.id === id);
+        if(action === 'view') showQuickView(product);
+        if(action === 'order') orderViaInstagram(product);
+      };
+    });
   });
 }
-display();
 
-document.querySelectorAll("nav li").forEach(li=>{
-  li.onclick = ()=> display(li.dataset.cat);
+// quick view modal (simple)
+function showQuickView(product){
+  // small modal overlay
+  const overlay = document.createElement('div');
+  overlay.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:80;padding:20px';
+  overlay.innerHTML = `
+    <div style="max-width:900px;width:100%;background:white;border-radius:14px;padding:20px;box-shadow:var(--shadow);color:#111">
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div style="flex:0 0 420px;border-radius:10px;overflow:hidden;background:#fafafa;padding:14px;display:flex;align-items:center;justify-content:center">
+          <img src="${product.image}" alt="${escapeHtml(product.name)}" style="max-width:100%;height:100%;object-fit:contain" />
+        </div>
+        <div style="flex:1;min-width:240px">
+          <h3 style="margin:0 0 6px">${escapeHtml(product.name)}</h3>
+          <div style="color:var(--muted);margin-bottom:12px">${escapeHtml(product.description)}</div>
+          <div style="font-weight:900;font-size:22px;margin-bottom:12px">${product.price.toFixed(2)}€</div>
+          <div style="display:flex;gap:10px">
+            <button id="orderNow" class="btn btn-primary">Commander via Instagram</button>
+            <button id="closeQV" class="btn btn-outline">Fermer</button>
+          </div>
+          <div style="margin-top:14px;color:var(--muted)">Stock : ${product.stock}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('closeQV').onclick = ()=> overlay.remove();
+  document.getElementById('orderNow').onclick = ()=> { overlay.remove(); orderViaInstagram(product); };
+}
+
+// order: build message, copy and open instagram
+function orderViaInstagram(product){
+  const message = `Bonjour, je souhaite commander :\n- ${product.name} x1 → ${product.price.toFixed(2)}€\n\nNom : \nTéléphone : \nAdresse (optionnel) :\n\nMerci !`;
+  copyToClipboard(message).then(()=>{
+    toast('Message copié ✅ — ouverture Instagram...');
+    window.open('https://www.instagram.com/cramponsdirect/','_blank','noopener');
+  }).catch(()=>{
+    alert('Impossible de copier automatiquement. Le message suivant est prêt :\n\n' + message);
+    window.open('https://www.instagram.com/cramponsdirect/','_blank','noopener');
+  });
+}
+
+// small toast
+function toast(txt, ms=1500){
+  const el = document.createElement('div');
+  el.textContent = txt;
+  el.style = 'position:fixed;right:18px;bottom:18px;background:rgba(0,0,0,0.85);color:white;padding:10px 14px;border-radius:10px;font-weight:700;z-index:9999';
+  document.body.appendChild(el);
+  setTimeout(()=> el.style.opacity='0', ms-400);
+  setTimeout(()=> el.remove(), ms);
+}
+
+// copy helper
+function copyToClipboard(text){
+  if(navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  return new Promise((resolve, reject)=>{
+    const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); ta.remove(); resolve(); } catch(e){ ta.remove(); reject(e) }
+  });
+}
+
+// utils
+function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1) }
+
+// wire nav
+document.querySelectorAll('.cat-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(btn.dataset.cat);
+  });
 });
+
+// initial render
+renderProducts('nike');

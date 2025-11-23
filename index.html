@@ -11,12 +11,8 @@
 <header>
     <div class="logo">CRAMPONS DIRECT</div>
     <div class="header-buttons">
-        <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" class="social-btn tiktok-btn">
-            TikTok
-        </a>
-        <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="social-btn insta-btn">
-            Instagram
-        </a>
+        <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" class="social-btn tiktok-btn">TikTok</a>
+        <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="social-btn insta-btn">Instagram</a>
     </div>
 </header>
 
@@ -38,28 +34,25 @@
 <div class="container">
     <h2 class="section-title">Nos Crampons</h2>
     <div class="products-grid" id="productsGrid">
-        <!-- Exemple produit avec lien Imgur -->
-        <div class="product-card" data-brand="nike">
-            <div class="product-image">
-                <img src="https://i.imgur.com/XXXXXXX.png" alt="Phantom GX2">
-            </div>
-            <div class="product-info">
-                <div class="product-brand">Nike</div>
-                <div class="product-name">Phantom GX2</div>
-                <div class="product-price">80€</div>
-                <button class="order-btn" onclick="showProduct('phantom-gx2')">Voir les détails</button>
-            </div>
-        </div>
-        <!-- Répétez le même modèle pour chaque crampon, changez le src vers Imgur et le nom -->
+        <!-- Les produits seront injectés par JS -->
+    </div>
+</div>
+
+<!-- Modal produit -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeProduct()">&times;</span>
+        <div id="productDetails"></div>
     </div>
 </div>
 
 <footer>
-    <p>&copy; 2025 Crampons Direct - Tous droits réservés</p>
+    <p>&copy; <span id="year"></span> Crampons Direct - Tous droits réservés</p>
 </footer>
 
 <script src="script.js"></script>
 </body>
 </html>
+
 
 

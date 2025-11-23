@@ -1,5 +1,6 @@
 /* -------------------------
-   Style global (modern/minimal)
+   Modern minimal layout + strong CSS presentation
+   Uses user-uploaded logo images (local paths) for background patterns.
    ------------------------- */
 :root{
   --maxw:1200px;
@@ -10,7 +11,6 @@
   --card-bg: linear-gradient(180deg,#ffffff,#fbfbfb);
   --gap:28px;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  color-scheme: light;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -19,14 +19,13 @@ body{
   background:linear-gradient(180deg,#fff,#fbfbfd);
   color:var(--accent);
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
   display:flex;flex-direction:column;
 }
 
-/* ---------- Containers ---------- */
+/* container */
 .container{max-width:var(--maxw);margin:0 auto;padding:0 20px;width:100%}
 
-/* ---------- Header ---------- */
+/* header */
 .site-header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);border-bottom:1px solid rgba(12,12,12,0.04)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 0}
 .brand{display:flex;align-items:center;gap:14px}
@@ -43,26 +42,24 @@ body{
 }
 .cat-btn.active{background:#000;color:#fff;box-shadow:0 8px 20px rgba(2,6,23,0.06)}
 
-/* actions */
-.actions{display:flex;gap:10px;align-items:center}
-.btn{padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;border:0}
-.btn-outline{background:transparent;border:1px solid var(--accent);padding:8px 14px;border-radius:999px}
-.insta{font-weight:800}
+/* instagram button (official gradient + rounded) */
+.btn-insta{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;color:white;text-decoration:none;font-weight:800;
+  background: linear-gradient(45deg,#f58529 0%,#dd2a7b 50%,#515bd4 100%);
+  box-shadow: 0 6px 18px rgba(81,91,212,0.12);
+}
 
-/* ---------- Hero ---------- */
+/* hero */
 .hero{padding:42px 0 10px;text-align:center}
 .hero h1{font-size:44px;letter-spacing:-1px;font-weight:900}
 .lead{margin-top:8px;color:var(--muted);font-weight:600}
 
-/* ---------- Category backgrounds (logos patterns + watermark overlays) ----------
-   Using exact logo images uploaded by user (local paths).
-   body class controls which pattern to show.
-   ----------------------------------------------------------------------------- */
-
-/* NIKE pattern + watermark */
+/* CATEGORY BACKGROUNDS: patterns + watermark overlays
+   Using the uploaded images (local). If you host on GitHub, replace with raw URLs.
+*/
 body.cat-nike{
   background-image:
-    url('/mnt/data/73c28d89-221a-42ca-aae9-a223437f36ec.png'),
+    url("/mnt/data/73c28d89-221a-42ca-aae9-a223437f36ec.png"),
     linear-gradient(180deg,#fff,#fbfbfd);
   background-repeat:repeat,no-repeat;
   background-position:center -80px, center;
@@ -70,15 +67,14 @@ body.cat-nike{
 }
 body.cat-nike::after{
   content:"";position:fixed;inset:0;pointer-events:none;opacity:0.06;
-  background-image:url('/mnt/data/3fe65746-3fe8-4259-948d-f075d5f90b9f.png');
+  background-image:url("/mnt/data/3fe65746-3fe8-4259-948d-f075d5f90b9f.png");
   background-repeat:no-repeat;background-position:center top;background-size:55%;
   filter: blur(18px) saturate(.9);z-index:0;
 }
 
-/* ADIDAS */
 body.cat-adidas{
   background-image:
-    url('/mnt/data/Capture d\'écran 2025-11-23 125028.png'),
+    url("/mnt/data/Capture d'écran 2025-11-23 125028.png"),
     linear-gradient(180deg,#fff,#fcfcfd);
   background-repeat:repeat,no-repeat;
   background-position:center -60px, center;
@@ -86,15 +82,14 @@ body.cat-adidas{
 }
 body.cat-adidas::after{
   content:"";position:fixed;inset:0;pointer-events:none;opacity:0.06;
-  background-image:url('/mnt/data/73c28d89-221a-42ca-aae9-a223437f36ec.png');
+  background-image:url("/mnt/data/73c28d89-221a-42ca-aae9-a223437f36ec.png");
   background-repeat:no-repeat;background-position:center top;background-size:60%;
   filter: blur(20px) saturate(.6);z-index:0;
 }
 
-/* NEW BALANCE */
 body.cat-newbalance{
   background-image:
-    url('/mnt/data/3fe65746-3fe8-4259-948d-f075d5f90b9f.png'),
+    url("/mnt/data/3fe65746-3fe8-4259-948d-f075d5f90b9f.png"),
     linear-gradient(180deg,#fff,#fafbfc);
   background-repeat:repeat,no-repeat;
   background-position:center -80px, center;
@@ -102,15 +97,12 @@ body.cat-newbalance{
 }
 body.cat-newbalance::after{
   content:"";position:fixed;inset:0;pointer-events:none;opacity:0.06;
-  background-image:url('/mnt/data/Capture d\'écran 2025-11-23 125028.png');
+  background-image:url("/mnt/data/Capture d'écran 2025-11-23 125028.png");
   background-repeat:no-repeat;background-position:center top;background-size:50%;
   filter: blur(18px) saturate(.7);z-index:0;
 }
 
-/* ensure content sits above background overlays */
-main{position:relative;z-index:5}
-
-/* ---------- Products grid ---------- */
+/* products grid */
 .grid{
   margin-top:20px;
   display:grid;
@@ -120,7 +112,7 @@ main{position:relative;z-index:5}
   margin-bottom:48px;
 }
 
-/* card : 3D tilt + cinematic zoom */
+/* product card: tilt + cinematic zoom */
 .card{
   background:var(--card-bg);
   border-radius:var(--radius);
@@ -156,7 +148,7 @@ main{position:relative;z-index:5}
 .btn-primary{background:#111;color:#fff;border-color:#111}
 .btn-outline{background:transparent}
 
-/* Hover state class toggled by JS for tilt */
+/* hover state applied by JS */
 .card.is-hover{transform: translateY(-12px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));}
 .card.is-hover .photo{transform: scale(1.06) translateZ(12px)}
 
@@ -172,6 +164,10 @@ main{position:relative;z-index:5}
   .grid{gap:18px}
   .card .media{height:220px}
 }
+
+/* utility */
+.small{font-size:13px;color:var(--muted)}
+
 
 
 

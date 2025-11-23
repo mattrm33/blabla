@@ -1,178 +1,77 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Crampons Direct | Premium Football Gear</title>
-    <meta name="description" content="La référence des crampons de football. Nike, Adidas, New Balance. Prix unique 80€.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crampons Direct - Premium Football Boots & Custom Anti-Slip Socks.">
+    <meta name="theme-color" content="#0a2558">
+    <title>Crampons Direct | Elite Football Gear</title>
     
-    <!-- Open Graph / SEO -->
-    <meta property="og:title" content="Crampons Direct">
-    <meta property="og:description" content="Nike, Adidas, New Balance. Performance Premium. 80€.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&q=80">
-    
-    <!-- Fonts: Inter (Google Fonts) -->
+    <!-- Fonts: Inter for modern, clean professional look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container nav-inner">
-            <a href="#" class="brand">
-                <!-- Professional Minimalist Logo (SVG) -->
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Crampons Direct</span>
+        <div class="container nav-container">
+            <a href="#" class="logo" onclick="app.navigate('home')">
+                <span class="text-blue">CRAMPONS</span><span class="text-red">DIRECT</span>
             </a>
-            
-            <div class="nav-links" id="navLinks">
-                <a href="#home">Accueil</a>
-                <a href="#about">Concept</a>
-                <a href="#products">Collection</a>
-                <a href="#pricing">Tarifs</a>
-                <a href="#contact">Contact</a>
-            </div>
-
+            <ul class="nav-links">
+                <li><a href="#" onclick="app.navigate('home')">Home</a></li>
+                <li><a href="#" onclick="app.navigate('products')">Boots</a></li>
+                <li><a href="#" onclick="app.navigate('socks')">Custom Socks</a></li>
+                <li><a href="#" onclick="app.navigate('about')">About</a></li>
+            </ul>
             <div class="nav-actions">
-                <a href="#products" class="btn btn-sm btn-primary">Boutique</a>
-                <button class="hamburger" id="menuBtn" aria-label="Menu">
+                <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-primary">Contact Us</a>
+                <div class="mobile-toggle" onclick="app.toggleMenu()">
                     <span></span>
                     <span></span>
-                </button>
+                    <span></span>
+                </div>
             </div>
         </div>
     </nav>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-bg"></div>
-            <div class="container hero-content reveal">
-                <span class="pill-label">Collection 2025</span>
-                <h1>L'Élite à vos pieds.</h1>
-                <p>Performance absolue. Style inégalé. Les meilleurs modèles Nike, Adidas et New Balance.</p>
-                <div class="hero-btns">
-                    <a href="#products" class="btn btn-primary">Voir la collection</a>
-                    <a href="#about" class="btn btn-outline">En savoir plus</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2>Le Concept</h2>
-                    <p>Nous simplifions l'accès à l'équipement professionnel. Pas de compromis.</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card reveal delay-1">
-                        <h3>Authenticité</h3>
-                        <p>Des modèles sélectionnés rigoureusement pour les joueurs exigeants.</p>
-                    </div>
-                    <div class="feature-card reveal delay-2">
-                        <h3>Performance</h3>
-                        <p>Technologies de pointe : Flyknit, Gripknit, HybridTouch.</p>
-                    </div>
-                    <div class="feature-card reveal delay-3">
-                        <h3>Simplicité</h3>
-                        <p>Un prix unique. Une transparence totale. Une livraison rapide.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Products Section -->
-        <section id="products" class="section bg-grey">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2>La Collection</h2>
-                    <div class="filters">
-                        <button class="filter-btn active" data-brand="all">Tout</button>
-                        <button class="filter-btn" data-brand="nike">Nike</button>
-                        <button class="filter-btn" data-brand="adidas">Adidas</button>
-                        <button class="filter-btn" data-brand="newbalance">New Balance</button>
-                    </div>
-                </div>
-                
-                <div class="products-grid" id="productsGrid">
-                    <!-- Products injected via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="section">
-            <div class="container">
-                <div class="pricing-wrapper reveal">
-                    <div class="pricing-content">
-                        <h2>Tarification Unique</h2>
-                        <p>Pourquoi payer plus cher ? Chez Crampons Direct, nous avons standardisé le premium.</p>
-                        <ul class="pricing-features">
-                            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Toutes tailles disponibles</li>
-                            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Livraison suivie incluse</li>
-                            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Garantie conformité</li>
-                        </ul>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="price-header">Prix Unique</div>
-                        <div class="price-amount">80€</div>
-                        <div class="price-sub">Pour n'importe quel modèle</div>
-                        <a href="#products" class="btn btn-primary btn-block">Choisir ma paire</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section bg-grey">
-            <div class="container contact-container reveal">
-                <div class="contact-text">
-                    <h2>Contactez-nous</h2>
-                    <p>Une question sur une pointure ? Besoin d'un conseil technique ? Notre équipe vous répond sous 24h.</p>
-                </div>
-                <form id="contactForm" class="contact-form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Votre Nom" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea rows="4" placeholder="Votre Message" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
-                </form>
-            </div>
-        </section>
+    <!-- Main Content Area (Dynamic) -->
+    <main id="app-root">
+        <!-- Content injected via JS -->
     </main>
 
+    <!-- Product Modal / Detail View -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="app.closeModal()">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container footer-inner">
+    <footer class="footer">
+        <div class="container footer-content">
             <div class="footer-brand">
-                <h3>CD</h3>
-                <p>&copy; <span id="year"></span> Crampons Direct.</p>
+                <h3>Crampons Direct</h3>
+                <p>Elevate your game with elite footwear.</p>
             </div>
             <div class="footer-socials">
-                <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                </a>
-                <a href="https://tiktok.com" target="_blank" aria-label="TikTok">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
-                </a>
+                <a href="https://www.instagram.com/cramponsdirect/" target="_blank" aria-label="Instagram">Instagram</a>
+                <a href="https://www.tiktok.com/@cramponsdirect" target="_blank" aria-label="TikTok">TikTok</a>
+            </div>
+            <div class="footer-legal">
+                <p>&copy; 2025 Crampons Direct. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script async src="https://www.tiktok.com/embed.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

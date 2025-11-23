@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CramponDirect</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">CRAMPONS DIRECT</div>
+  <nav>
+    <ul>
+      <li data-cat="nike">Nike</li>
+      <li data-cat="adidas">Adidas</li>
+      <li data-cat="newbalance">New Balance</li>
+    </ul>
+  </nav>
+  <button id="adminBtn">Admin</button>
+</header>
+
+<section id="hero">
+  <h1>PERFORMANCE. PRÉCISION. VITESSE.</h1>
+  <p>Les meilleurs crampons du moment.</p>
+</section>
+
+<section id="products" class="grid"></section>
+
+<footer>
+  <p>© 2025 CramponsDirect | Commande via Instagram</p>
+</footer>
+
+<!-- Modal Admin -->
+<div id="modal" class="hidden">
+  <div class="modal-box">
+    <h2>Connexion admin</h2>
+    <input type="password" id="adminPass" placeholder="Mot de passe">
+    <button id="loginSubmit">Se connecter</button>
+    <button class="closeModal">Fermer</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

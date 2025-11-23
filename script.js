@@ -1,195 +1,275 @@
 /**
  * Crampons Direct - Main Application Logic
- * Author: Web Dev
+ * Functionality: Router, Filtering, Dynamic Rendering, TikTok Embeds
  */
 
-// --- Data Configuration ---
-const PRODUCTS = [
+// --- 1. Product Database ---
+const products = [
     {
-        id: 'nike-phantom-gx2',
-        name: 'Nike Phantom GX2',
-        brand: 'nike',
+        id: "nike-phantom-gx2",
+        brand: "nike",
+        name: "Nike Phantom GX2",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Precision meets agility. Designed for the playmaker.'
+        img: "https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Engineered for precision. The Phantom GX2 features Gripknit technology for better ball control in all weather conditions.",
+        videos: []
     },
     {
-        id: 'nike-phantom-gx3',
-        name: 'Nike Phantom GX3',
-        brand: 'nike',
+        id: "nike-phantom-gx3",
+        brand: "nike",
+        name: "Nike Phantom GX3",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'The next evolution of control.'
+        img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "The next evolution of the Phantom. Lighter, grippier, and deadlier in front of goal.",
+        videos: []
     },
     {
-        id: 'nike-mercurial-gx3',
-        name: 'Nike Mercurial GX3 Elite',
-        brand: 'nike',
+        id: "nike-mercurial-gx3",
+        brand: "nike",
+        name: "Nike Mercurial GX3 Elite",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Explosive speed for the fastest players on the pitch.'
+        img: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Pure speed. The Mercurial GX3 Elite is the lightest boot in the range, designed for explosive acceleration.",
+        videos: ["7574545441858129174", "7574185891049131286"] // Mapped from prompt
     },
     {
-        id: 'nike-phantom-luna',
-        name: 'Nike Phantom Luna Elite',
-        brand: 'nike',
+        id: "nike-phantom-luna",
+        brand: "nike",
+        name: "Nike Phantom Luna Elite",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Anatomically designed for female athletes, perfect for all.'
+        img: "https://images.unsplash.com/photo-1515542706656-8e6ef17a1521?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Designed with insight from female footballers, the Luna offers 360-degree rotational traction for injury prevention and agility.",
+        videos: ["7574151020847140118"] // Mapped from prompt
     },
     {
-        id: 'adidas-predator',
-        name: 'Adidas Predator Elite',
-        brand: 'adidas',
+        id: "adidas-predator",
+        brand: "adidas",
+        name: "Adidas Predator Elite",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Legendary touch. Goal scoring machine.'
+        img: "https://images.unsplash.com/photo-1586525198428-225f6f12c240?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "The goal scorer's boot. Strikeskin rubber fins provide ultimate swerve and power.",
+        videos: []
     },
     {
-        id: 'adidas-copa',
-        name: 'Adidas Copa Pure II',
-        brand: 'adidas',
+        id: "adidas-copa",
+        brand: "adidas",
+        name: "Adidas Copa Pure II",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Pure leather touch for the purist.'
+        img: "https://images.unsplash.com/photo-1616400619175-5beda3a17896?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Class and comfort. Premium leather upper meets modern lightweight tooling.",
+        videos: []
     },
     {
-        id: 'nb-tekela',
-        name: 'New Balance Tekela',
-        brand: 'newbalance',
+        id: "nb-tekela",
+        brand: "newbalance",
+        name: "New Balance Tekela",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Amplify your senses. Unrivaled control.'
-    },
-    // Special Video Products
-    {
-        id: 'adidas-f50-showcase',
-        name: 'Adidas F50',
-        brand: 'adidas',
-        price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Return of the speed icon. Watch the showcase.',
-        videos: ['7574545441858129174'] 
+        img: "https://images.unsplash.com/photo-1562183241-b937e95585b6?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "See it different. The Tekela provides unrivaled stability and touch for the midfield maestro.",
+        videos: []
     },
     {
-        id: 'nike-mercurial-showcase',
-        name: 'Nike Mercurial',
-        brand: 'nike',
+        id: "adidas-f50",
+        brand: "adidas",
+        name: "Adidas F50",
         price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'The definition of fast. Watch the showcase.',
-        videos: ['7574545441858129174', '7574185891049131286']
-    },
-    {
-        id: 'nike-phantom-showcase',
-        name: 'Nike Phantom',
-        brand: 'nike',
-        price: 80,
-        img: 'https://i.imgur.com/placeholder.jpg', // REPLACE WITH IMGUR LINK
-        desc: 'Phantom precision on display.',
-        videos: ['7574151020847140118']
+        img: "https://images.unsplash.com/photo-1529815488161-0f1f924e6b12?auto=format&fit=crop&q=80&w=800", // Placeholder
+        desc: "Fast is back. The F50 returns with a Sprintframe outsole for elite-level speed.",
+        videos: ["7574545441858129174"] // Mapped from prompt
     }
 ];
 
-// --- App Controller ---
+// --- 2. Application Core ---
 const app = {
     root: document.getElementById('app-root'),
     
     init: function() {
         this.navigate('home');
-        this.setupListeners();
+        this.setupMobileMenu();
     },
 
-    // Simple Router
-    navigate: function(page) {
+    navigate: function(page, param = null) {
         window.scrollTo(0, 0);
+        
         // Close mobile menu if open
         document.querySelector('.nav-links').classList.remove('active');
 
-        if (page === 'home') {
-            this.renderHome();
-        } else if (page === 'products') {
-            this.renderProductsPage('all');
-        } else if (page === 'socks') {
-            this.renderSocks();
-        } else if (page === 'about') {
-            this.renderAbout();
+        switch(page) {
+            case 'home':
+                this.renderHome();
+                break;
+            case 'shop':
+                this.renderShop(param || 'all');
+                break;
+            case 'product':
+                this.renderProductDetail(param);
+                break;
+            case 'socks':
+                this.renderSocks();
+                break;
+            case 'about':
+                this.renderAbout();
+                break;
+            default:
+                this.renderHome();
         }
     },
 
-    // Toggle Mobile Menu
-    toggleMenu: function() {
-        document.querySelector('.nav-links').classList.toggle('active');
-    },
+    // --- View Renderers ---
 
-    // Render Views
     renderHome: function() {
         this.root.innerHTML = `
             <section class="hero">
-                <div class="hero-content">
-                    <h1 class="text-blue">DOMINATE <br> <span class="text-red">THE PITCH</span></h1>
-                    <p class="hero-sub">Elite Football Boots & Custom Anti-Slip Socks.</p>
-                    <button class="btn btn-primary" onclick="app.navigate('products')">Shop Collection</button>
+                <div class="container hero-content">
+                    <h1 class="text-blue">DOMINATE <br> <span style="color:var(--color-red)">THE PITCH.</span></h1>
+                    <p style="font-size: 1.25rem; color: #64748b; margin-bottom: 30px;">
+                        Elite football boots and custom anti-slip socks. 
+                        Professional gear for those who demand the best.
+                    </p>
+                    <button onclick="app.navigate('shop')" class="btn btn-primary">Shop Boots</button>
+                    <button onclick="app.navigate('socks')" class="btn btn-outline" style="margin-left: 10px;">Custom Socks</button>
                 </div>
             </section>
-            <section class="container products-section">
-                <h2>Featured Arrivals</h2>
-                <div class="product-grid" id="home-grid"></div>
-                <div style="text-align:center; margin-top:40px;">
-                    <button class="btn btn-outline" onclick="app.navigate('products')">View All</button>
+            
+            <section class="section">
+                <div class="container">
+                    <h2>Featured Arrivals</h2>
+                    <div class="product-grid" id="featured-grid"></div>
+                    <div style="text-align:center; margin-top:40px;">
+                        <button onclick="app.navigate('shop')" class="btn btn-outline">View Full Catalog</button>
+                    </div>
                 </div>
-            </section>
-        `;
-        // Render top 4 products
-        this.renderGrid(PRODUCTS.slice(0, 4), 'home-grid');
-    },
-
-    renderProductsPage: function(filter = 'all') {
-        this.root.innerHTML = `
-            <section class="container products-section">
-                <h2 class="text-blue">Elite Footwear</h2>
-                <div class="filters">
-                    <button class="filter-btn ${filter === 'all' ? 'active' : ''}" onclick="app.filterProducts('all')">All Brands</button>
-                    <button class="filter-btn ${filter === 'nike' ? 'active' : ''}" onclick="app.filterProducts('nike')">Nike</button>
-                    <button class="filter-btn ${filter === 'adidas' ? 'active' : ''}" onclick="app.filterProducts('adidas')">Adidas</button>
-                    <button class="filter-btn ${filter === 'newbalance' ? 'active' : ''}" onclick="app.filterProducts('newbalance')">New Balance</button>
-                </div>
-                <div class="product-grid" id="main-grid"></div>
             </section>
         `;
         
-        const filtered = filter === 'all' 
-            ? PRODUCTS 
-            : PRODUCTS.filter(p => p.brand === filter);
-            
-        this.renderGrid(filtered, 'main-grid');
+        // Render top 4 items
+        this.renderGrid(products.slice(0, 4), 'featured-grid');
+    },
+
+    renderShop: function(filter) {
+        this.root.innerHTML = `
+            <section class="section bg-light" style="min-height: 80vh;">
+                <div class="container">
+                    <div style="text-align:center; margin-bottom: 40px;">
+                        <h2>Professional Footwear</h2>
+                        <p>All boots priced at €80. Filter by your preferred brand.</p>
+                    </div>
+
+                    <div class="filters">
+                        <button class="filter-btn ${filter === 'all' ? 'active' : ''}" onclick="app.filterShop('all')">All Brands</button>
+                        <button class="filter-btn ${filter === 'nike' ? 'active' : ''}" onclick="app.filterShop('nike')">Nike</button>
+                        <button class="filter-btn ${filter === 'adidas' ? 'active' : ''}" onclick="app.filterShop('adidas')">Adidas</button>
+                        <button class="filter-btn ${filter === 'newbalance' ? 'active' : ''}" onclick="app.filterShop('newbalance')">New Balance</button>
+                    </div>
+
+                    <div class="product-grid" id="shop-grid"></div>
+                </div>
+            </section>
+        `;
+
+        const filtered = filter === 'all' ? products : products.filter(p => p.brand === filter);
+        this.renderGrid(filtered, 'shop-grid');
+    },
+
+    renderGrid: function(items, containerId) {
+        const container = document.getElementById(containerId);
+        if(items.length === 0) {
+            container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No products found.</p>';
+            return;
+        }
+
+        container.innerHTML = items.map(p => `
+            <div class="product-card" onclick="app.navigate('product', '${p.id}')">
+                <div class="card-img-wrapper">
+                    <img src="${p.img}" alt="${p.name}" loading="lazy">
+                </div>
+                <div class="card-info">
+                    <span class="card-brand">${p.brand}</span>
+                    <h3 class="card-title">${p.name}</h3>
+                    <div class="card-price">€${p.price}</div>
+                </div>
+            </div>
+        `).join('');
+    },
+
+    renderProductDetail: function(id) {
+        const product = products.find(p => p.id === id);
+        if(!product) return this.navigate('shop');
+
+        // Check if product has video or image
+        let mediaHTML = '';
+        if(product.videos && product.videos.length > 0) {
+            mediaHTML = product.videos.map(vidId => `
+                <div style="margin-bottom:20px;">
+                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cramponsdirect/video/${vidId}" data-video-id="${vidId}" style="max-width: 605px;min-width: 325px;" > 
+                        <section> <a target="_blank" href="https://www.tiktok.com/@cramponsdirect/video/${vidId}">@cramponsdirect</a> </section> 
+                    </blockquote>
+                </div>
+            `).join('');
+        } else {
+            mediaHTML = `<img src="${product.img}" alt="${product.name}" style="width:100%; height:auto; object-fit:cover;">`;
+        }
+
+        this.root.innerHTML = `
+            <div class="section container detail-container">
+                <span class="back-btn" onclick="app.navigate('shop')">← Back to Shop</span>
+                
+                <div class="detail-layout">
+                    <div class="detail-media">
+                        <div style="width:100%; padding:20px; text-align:center;">
+                            ${mediaHTML}
+                        </div>
+                    </div>
+                    
+                    <div class="detail-info">
+                        <span style="text-transform:uppercase; color:var(--color-red); font-weight:700;">${product.brand}</span>
+                        <h1>${product.name}</h1>
+                        <div class="detail-price">€${product.price}</div>
+                        
+                        <p class="detail-desc">${product.desc}</p>
+                        
+                        <div style="background:#f1f5f9; padding:25px; border-radius:8px;">
+                            <p style="font-weight:600; margin-bottom:10px;">Ready to dominate?</p>
+                            <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-primary" style="width:100%; text-align:center; display:block;">Order Now on Instagram</a>
+                            <p style="font-size:0.8rem; margin-top:10px; color:#64748b; text-align:center;">DM us your size and address.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Crucial: Reload TikTok script for dynamic content
+        this.reloadTikTokScript();
     },
 
     renderSocks: function() {
         this.root.innerHTML = `
-            <section class="container socks-section">
-                <h2 class="text-blue">Custom Anti-Slip Socks</h2>
-                <div class="socks-hero">
-                    <div class="socks-visual">
-                        <!-- Placeholder for Socks Image -->
-                        <img src="https://via.placeholder.com/400x300/0a2558/ffffff?text=Custom+Socks" alt="Custom Socks">
-                    </div>
-                    <div class="socks-text">
-                        <h3 class="text-red">Your Club. Your Colors.</h3>
-                        <p style="margin-top:10px; color: #666;">
-                            Professional grade anti-slip technology meets complete customization. 
-                            Prevent blisters, improve grip, and represent your team.
-                        </p>
-                        <ul class="feature-list">
-                            <li>Custom Club Logo</li>
-                            <li>Custom Colorways</li>
-                            <li>Medical grade grip pads</li>
-                            <li>Breathable moisture-wicking fabric</li>
-                        </ul>
-                        <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-primary">
-                            DM to Order Custom Pair
-                        </a>
-                    </div>
+            <section class="section container">
+                <div style="background:var(--color-blue); color:white; border-radius:12px; padding:60px 20px; text-align:center;">
+                    <h2 style="color:white;">Custom Anti-Slip Socks</h2>
+                    <p style="max-width:600px; margin:0 auto 30px; opacity:0.9;">
+                        Professional grade grip technology. Fully customizable with your club logo, colors, and number.
+                        Prevent blisters and improve agility.
+                    </p>
+                    <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-primary">Start Custom Order</a>
+                </div>
+                
+                <div style="margin-top:60px; text-align:center;">
+                   <h3>Why Choose Our Socks?</h3>
+                   <div style="display:flex; justify-content:center; gap:30px; margin-top:30px; flex-wrap:wrap;">
+                        <div style="flex:1; min-width:250px; padding:20px; border:1px solid #eee; border-radius:8px;">
+                            <h4 style="margin-bottom:10px;">Medical Grade Grip</h4>
+                            <p>Silicone pads placed strategically for maximum traction.</p>
+                        </div>
+                        <div style="flex:1; min-width:250px; padding:20px; border:1px solid #eee; border-radius:8px;">
+                            <h4 style="margin-bottom:10px;">Team Identity</h4>
+                            <p>We weave your club crest directly into the fabric.</p>
+                        </div>
+                        <div style="flex:1; min-width:250px; padding:20px; border:1px solid #eee; border-radius:8px;">
+                            <h4 style="margin-bottom:10px;">Breathable</h4>
+                            <p>Moisture-wicking materials keep feet dry.</p>
+                        </div>
+                   </div>
                 </div>
             </section>
         `;
@@ -197,134 +277,48 @@ const app = {
 
     renderAbout: function() {
         this.root.innerHTML = `
-            <section class="container about-section">
-                <h2>About Crampons Direct</h2>
-                <div class="about-content">
-                    <p>
-                        We are dedicated to providing footballers with elite-level gear at accessible prices. 
-                        Based in France, serving the global football community. 
-                        We specialize in high-end boots and fully customizable grip socks designed for performance.
+            <section class="section container">
+                <div style="max-width:800px; margin:0 auto; text-align:center;">
+                    <h1>About Us</h1>
+                    <p style="font-size:1.2rem; margin:40px 0;">
+                        <strong>Crampons Direct</strong> was founded to strip away the marketing noise and provide exactly what elite players need: 
+                        top-tier footwear at a fair price (€80 flat rate) and accessories that actually improve performance.
                     </p>
+                    <p>Based in France, we ship globally. We do not track you, we do not sell your data. We just sell boots.</p>
                     <br>
-                    <p><strong>Strictly No Fakes. Only Performance.</strong></p>
+                    <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-outline">Follow Our Journey</a>
                 </div>
             </section>
         `;
     },
 
-    // Helpers
-    renderGrid: function(products, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
+    // --- Helpers ---
 
-        products.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            
-            // If placeholder, use a generic one
-            const displayImg = p.img.includes('placeholder') ? 
-                `https://via.placeholder.com/300x250/f3f4f6/0a2558?text=${encodeURIComponent(p.name)}` : p.img;
+    filterShop: function(brand) {
+        this.renderShop(brand);
+    },
 
-            let actionButton = '';
-            if (p.videos) {
-                actionButton = `<button class="btn btn-primary btn-card" onclick="app.openProduct('${p.id}')">Watch Showcase & Buy</button>`;
-            } else {
-                // Direct order link for regular products
-                actionButton = `<a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-primary btn-card">Order Now</a>`;
-            }
-
-            card.innerHTML = `
-                <div class="card-img-container">
-                    <img src="${displayImg}" alt="${p.name}" class="card-img">
-                </div>
-                <div class="card-info">
-                    <span class="card-brand">${p.brand}</span>
-                    <h3 class="card-title">${p.name}</h3>
-                    <p class="card-price">€${p.price}</p>
-                    ${actionButton}
-                </div>
-            `;
-            container.appendChild(card);
+    setupMobileMenu: function() {
+        const btn = document.querySelector('.mobile-toggle');
+        const nav = document.querySelector('.nav-links');
+        btn.addEventListener('click', () => {
+            nav.classList.toggle('active');
         });
     },
 
-    filterProducts: function(brand) {
-        this.renderProductsPage(brand);
-    },
-
-    // Modal / Details Logic
-    openProduct: function(id) {
-        const product = PRODUCTS.find(p => p.id === id);
-        if (!product) return;
-
-        const modal = document.getElementById('product-modal');
-        const body = document.getElementById('modal-body');
-
-        let mediaContent = '';
-        
-        // Generate TikTok Embeds
-        if (product.videos && product.videos.length > 0) {
-            const embeds = product.videos.map(vidId => `
-                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cramponsdirect/video/${vidId}" data-video-id="${vidId}" style="max-width: 605px;min-width: 325px;" > 
-                    <section> <a target="_blank" href="https://www.tiktok.com/@cramponsdirect/video/${vidId}?refer=embed">@cramponsdirect</a> </section> 
-                </blockquote>
-            `).join('');
-            mediaContent = `<div class="detail-media">${embeds}</div>`;
-        } else {
-            mediaContent = `<div class="detail-media"><img src="${product.img}" style="max-width:400px; border-radius:8px;"></div>`;
-        }
-
-        body.innerHTML = `
-            <div class="detail-layout">
-                ${mediaContent}
-                <div class="detail-info">
-                    <span class="text-blue" style="font-weight:bold; text-transform:uppercase;">${product.brand}</span>
-                    <h2 style="text-align:left; margin: 10px 0;">${product.name}</h2>
-                    <p style="font-size: 1.5rem; font-weight:700; margin-bottom:20px;">€${product.price}</p>
-                    <p style="margin-bottom:30px; color:#555;">${product.desc}</p>
-                    <a href="https://www.instagram.com/cramponsdirect/" target="_blank" class="btn btn-primary" style="width:100%; text-align:center;">Order on Instagram</a>
-                </div>
-            </div>
-        `;
-
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevent scrolling background
-
-        // Reload TikTok script to render new embeds
-        this.reloadTikTokScript();
-    },
-
-    closeModal: function() {
-        document.getElementById('product-modal').style.display = 'none';
-        document.body.style.overflow = 'auto';
-        document.getElementById('modal-body').innerHTML = ''; // Clear to stop video audio
-    },
-
     reloadTikTokScript: function() {
-        // Remove old script if exists
-        const oldScript = document.getElementById('tiktok-embed-script');
-        if (oldScript) oldScript.remove();
+        // Remove existing script to force reload
+        const oldScript = document.querySelector('script[src*="tiktok.com"]');
+        if(oldScript) oldScript.remove();
 
-        // Add new script to trigger render
         const script = document.createElement('script');
-        script.id = 'tiktok-embed-script';
-        script.src = 'https://www.tiktok.com/embed.js';
+        script.src = "https://www.tiktok.com/embed.js";
         script.async = true;
         document.body.appendChild(script);
-    },
-
-    setupListeners: function() {
-        // Close modal on outside click
-        window.onclick = function(event) {
-            const modal = document.getElementById('product-modal');
-            if (event.target == modal) {
-                app.closeModal();
-            }
-        };
     }
 };
 
-// Start App
+// --- 3. Start App ---
 document.addEventListener('DOMContentLoaded', () => {
     app.init();
 });

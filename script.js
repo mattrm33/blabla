@@ -4,7 +4,7 @@ const PRODUCTS = [
         id: 'nike-gx2',
         brand: 'nike',
         name: 'Phantom GX2 Elite',
-        price: 260,
+        price: 80,
         // Using placeholder API for demo purposes. Replace with your real image URLs.
         img: 'https://placehold.co/600x600/f5f5f5/111?text=Nike+Phantom',
         desc: 'Gripknit pour un toucher exceptionnel.'
@@ -13,7 +13,7 @@ const PRODUCTS = [
         id: 'nike-merc',
         brand: 'nike',
         name: 'Mercurial Vapor 15',
-        price: 250,
+        price: 80,
         img: 'https://placehold.co/600x600/f5f5f5/111?text=Nike+Mercurial',
         desc: 'Vitesse explosive.'
     },
@@ -21,7 +21,7 @@ const PRODUCTS = [
         id: 'adi-pred',
         brand: 'adidas',
         name: 'Predator Elite',
-        price: 240,
+        price: 80,
         img: 'https://placehold.co/600x600/f5f5f5/111?text=Adidas+Predator',
         desc: 'Retour de la languette repliée.'
     },
@@ -29,7 +29,7 @@ const PRODUCTS = [
         id: 'adi-x',
         brand: 'adidas',
         name: 'X Crazyfast',
-        price: 230,
+        price: 80,
         img: 'https://placehold.co/600x600/f5f5f5/111?text=Adidas+X',
         desc: 'Légèreté ultime.'
     },
@@ -37,7 +37,7 @@ const PRODUCTS = [
         id: 'nb-tek',
         brand: 'newbalance',
         name: 'Tekela V4',
-        price: 220,
+        price: 80,
         img: 'https://placehold.co/600x600/f5f5f5/111?text=NB+Tekela',
         desc: 'Confort sans lacets.'
     },

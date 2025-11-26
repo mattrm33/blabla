@@ -3,160 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAMPON DIRECT | Performance Elite</title>
-    <meta name="description" content="Vente de crampons de football premium. Nike, Adidas, Puma.">
-    
-    <!-- Polices Google : Archivo Black (Titres) + Manrope (Corps) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
-    
+    <title>CRAMPON DIRECT | Performance & Style</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Inter pour le minimalisme -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome pour les icônes panier/menu -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-inner">
-            <!-- LOGO SVG -->
-            <a href="#" class="logo-container">
-                <svg class="brand-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Forme de crampon stylisé / vitesse -->
-                    <path d="M10 5L30 5L20 35L10 5Z" fill="black"/>
-                    <path d="M30 5L35 20L20 35" stroke="#CCFF00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="brand-text">CRAMPON<br>DIRECT</span>
-            </a>
-
-            <div class="nav-links">
-                <a href="#hero">Accueil</a>
-                <a href="#slider-section">Nouveautés</a>
-                <a href="#shop">Catalogue</a>
-                <a href="#footer">Contact</a>
-            </div>
-
-            <div class="nav-actions">
-                <div class="cart-icon">
-                    <span>0</span>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                </div>
-                <button class="menu-btn" aria-label="Menu">
-                    <span class="line"></span>
-                    <span class="line"></span>
-                </button>
-            </div>
+    <!-- HEADER -->
+    <header id="navbar">
+        <div class="logo-container">
+            <!-- Logo SVG Inline -->
+            <svg class="site-logo" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 35L5 25C5 25 10 10 25 5C40 0 50 10 50 10L45 20H35L40 35H30L25 25L20 35H15Z" fill="var(--accent)" stroke="white" stroke-width="2"/>
+                <path d="M5 40H50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M10 45L15 40" stroke="white" stroke-width="2"/>
+                <path d="M25 45L30 40" stroke="white" stroke-width="2"/>
+                <path d="M40 45L45 40" stroke="white" stroke-width="2"/>
+                <text x="60" y="32" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="white" letter-spacing="-1">CRAMPON</text>
+                <text x="60" y="44" font-family="'Inter', sans-serif" font-weight="bold" font-size="10" fill="white" letter-spacing="3">DIRECT</text>
+            </svg>
         </div>
-    </nav>
 
-    <!-- Menu Mobile Overlay -->
-    <div class="mobile-menu-overlay">
-        <a href="#hero">Accueil</a>
-        <a href="#slider-section">Nouveautés</a>
-        <a href="#shop">Catalogue</a>
-    </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#hero">Accueil</a></li>
+                <li><a href="#products">Produits</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
 
-    <!-- Hero Section -->
-    <header id="hero" class="hero">
-        <div class="container hero-container">
-            <div class="hero-content reveal">
-                <span class="tag">Collection 2025</span>
-                <h1>DOMINEZ<br>LE JEU.</h1>
-                <p>La sélection ultime pour les attaquants et les créateurs. Vitesse pure, toucher précis, style inégalé.</p>
-                <a href="#shop" class="btn btn-primary">Voir la boutique</a>
-            </div>
-            <div class="hero-visual reveal delay-200">
-                <div class="circle-bg"></div>
-                <!-- Image principale (Nike Mercurial style) -->
-                <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/a5214652-32c9-436f-b4c4-754784606778/chaussure-de-foot-a-crampons-pour-terrain-sec-mercurial-superfly-9-elite-D27nLK.png" alt="Crampon Hero" class="hero-img floating">
-            </div>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count">0</span>
+        </div>
+
+        <div class="burger-menu">
+            <i class="fas fa-bars"></i>
         </div>
     </header>
 
-    <!-- Marquee Marques -->
-    <div class="marquee">
-        <div class="track">
-            <span>NIKE MERCURIAL</span> • <span>ADIDAS PREDATOR</span> • <span>PUMA FUTURE</span> • <span>MIZUNO MORELIA</span> • <span>NIKE PHANTOM</span> • <span>ADIDAS X CRAZYFAST</span> •
-            <span>NIKE MERCURIAL</span> • <span>ADIDAS PREDATOR</span> • <span>PUMA FUTURE</span> • <span>MIZUNO MORELIA</span> • <span>NIKE PHANTOM</span> • <span>ADIDAS X CRAZYFAST</span> •
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content fade-in">
+            <h1>DOMINEZ <br><span class="text-stroke">LE TERRAIN</span></h1>
+            <p>L'alliance parfaite entre vitesse, contrôle et design.</p>
+            <a href="#products" class="btn-cta">Découvrir la collection</a>
         </div>
-    </div>
+    </section>
 
-    <!-- Section Slider (Horizontal Scroll) -->
-    <section id="slider-section" class="slider-section">
+    <!-- PRODUCTS SECTION -->
+    <section id="products" class="section-padding">
         <div class="container">
-            <div class="section-header reveal">
-                <h2>À la une</h2>
-                <div class="slider-controls">
-                    <button id="slideLeft">←</button>
-                    <button id="slideRight">→</button>
-                </div>
-            </div>
-            <div class="slider-container" id="productSlider">
-                <!-- Les produits du slider seront injectés via JS -->
+            <h2 class="section-title">NOS SÉLECTIONS <span class="accent-dot">.</span></h2>
+            <div class="products-grid" id="product-grid">
+                <!-- Les produits seront injectés via JS ici -->
             </div>
         </div>
     </section>
 
-    <!-- Section Grille (Catalogue complet) -->
-    <section id="shop" class="shop-section">
-        <div class="container">
-            <h2 class="section-title reveal">Le Catalogue</h2>
-            <div class="filters reveal">
-                <button class="filter-btn active" data-filter="all">Tout</button>
-                <button class="filter-btn" data-filter="nike">Nike</button>
-                <button class="filter-btn" data-filter="adidas">Adidas</button>
-                <button class="filter-btn" data-filter="puma">Puma</button>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section-padding bg-dark">
+        <div class="container about-container">
+            <div class="about-text fade-in-scroll">
+                <h2>NOTRE MISSION</h2>
+                <p>Chez <strong>CRAMPON DIRECT</strong>, nous ne vendons pas simplement des chaussures. Nous équipons les futurs champions.</p>
+                <p>Nés de la passion du football, nous sélectionnons les modèles les plus innovants pour garantir une performance optimale, quel que soit votre poste sur le terrain.</p>
+                <a href="#contact" class="link-underline">En savoir plus</a>
             </div>
-            
-            <div class="product-grid" id="mainGrid">
-                <!-- Les produits de la grille seront injectés via JS -->
+            <div class="about-image fade-in-scroll">
+                <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Football Passion">
             </div>
         </div>
     </section>
 
-    <!-- Banner Info -->
-    <section class="info-banner">
-        <div class="container info-grid">
-            <div class="info-item reveal">
-                <h3>🚀 Expédition Rapide</h3>
-                <p>Prêt pour le match du week-end.</p>
-            </div>
-            <div class="info-item reveal delay-100">
-                <h3>🛡️ 100% Authentique</h3>
-                <p>Produits certifiés officiels.</p>
-            </div>
-            <div class="info-item reveal delay-200">
-                <h3>💎 Service Premium</h3>
-                <p>Une équipe d'experts à votre écoute.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="footer">
-        <div class="container footer-inner">
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
             <div class="footer-col">
-                <div class="logo-container">
-                     <span class="brand-text">CRAMPON DIRECT</span>
-                </div>
-                <p>L'excellence aux pieds.</p>
+                <h3>CRAMPON DIRECT</h3>
+                <p>Performance & Style.</p>
             </div>
             <div class="footer-col">
-                <h4>Liens</h4>
-                <a href="#">Mentions Légales</a>
-                <a href="#">Livraisons</a>
-                <a href="#">Retours</a>
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Produits</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </div>
             <div class="footer-col">
-                <h4>Suivez-nous</h4>
-                <div class="socials">
-                    <a href="#">IG</a>
-                    <a href="#">TK</a>
-                    <a href="#">YT</a>
-                </div>
+                <h4>Légal</h4>
+                <ul>
+                    <li><a href="#">Mentions Légales</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>Tous droits réservés à MAT_TRM</p>
+            <p>&copy; 2023 CRAMPON DIRECT - Tous droits réservés à <strong>MAT_TRM</strong></p>
         </div>
     </footer>
 

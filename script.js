@@ -1,179 +1,164 @@
-// --- Configuration ---
-const PRODUCTS = [
+// --- Données Produits ---
+const productsData = [
     {
-        id: 'nike-gx2',
+        id: 1,
         brand: 'nike',
-        name: 'Phantom GX2 Elite',
-        price: 260,
-        // Using placeholder API for demo purposes. Replace with your real image URLs.
-        img: 'https://placehold.co/600x600/f5f5f5/111?text=Nike+Phantom',
-        desc: 'Gripknit pour un toucher exceptionnel.'
+        name: 'Mercurial Superfly 9',
+        img: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/f153a5c2-6782-4547-88f5-467272895690/chaussure-de-foot-a-crampons-basse-pour-terrain-sec-phantom-gx-elite-Fh4q0w.png'
     },
     {
-        id: 'nike-merc',
+        id: 2,
+        brand: 'adidas',
+        name: 'Predator Accuracy+',
+        img: 'https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/20888913b77242d59163af600100d04e_9366/Chaussure_Predator_Accuracy_Terrain_souple_Noir_GW4569_22_model.jpg'
+    },
+    {
+        id: 3,
+        brand: 'puma',
+        name: 'Future Ultimate',
+        img: 'https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/107355/01/sv01/fnd/EEA/fmt/png/Chaussures-de-football-FUTURE-ULTIMATE-FG/AG'
+    },
+    {
+        id: 4,
         brand: 'nike',
-        name: 'Mercurial Vapor 15',
-        price: 250,
-        img: 'https://placehold.co/600x600/f5f5f5/111?text=Nike+Mercurial',
-        desc: 'Vitesse explosive.'
+        name: 'Phantom GX Elite',
+        img: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/31d6006c-8244-4632-9a3c-a98816c11d2e/chaussure-de-foot-a-crampons-pour-terrain-sec-tiempo-legend-10-elite-0PGQj9.png'
     },
     {
-        id: 'adi-pred',
+        id: 5,
         brand: 'adidas',
-        name: 'Predator Elite',
-        price: 240,
-        img: 'https://placehold.co/600x600/f5f5f5/111?text=Adidas+Predator',
-        desc: 'Retour de la languette repliée.'
+        name: 'X Crazyfast.1',
+        img: 'https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/61f8696b610344f69188af5f00e98583_9366/Chaussure_X_Crazyfast.1_Terrain_souple_Blanc_HQ4516_22_model.jpg'
     },
     {
-        id: 'adi-x',
-        brand: 'adidas',
-        name: 'X Crazyfast',
-        price: 230,
-        img: 'https://placehold.co/600x600/f5f5f5/111?text=Adidas+X',
-        desc: 'Légèreté ultime.'
-    },
-    {
-        id: 'nb-tek',
-        brand: 'newbalance',
-        name: 'Tekela V4',
-        price: 220,
-        img: 'https://placehold.co/600x600/f5f5f5/111?text=NB+Tekela',
-        desc: 'Confort sans lacets.'
-    },
+        id: 6,
+        brand: 'puma',
+        name: 'Ultra Ultimate',
+        img: 'https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/107744/01/sv01/fnd/EEA/fmt/png/Chaussures-de-football-ULTRA-ULTIMATE-FG/AG'
+    }
 ];
 
+// Fallback image si erreur
+const FALLBACK_IMG = "https://placehold.co/400x400/f4f4f4/111?text=No+Image";
+
 // --- DOM Elements ---
-const grid = document.getElementById('productsGrid');
+const mainGrid = document.getElementById('mainGrid');
+const sliderContainer = document.getElementById('productSlider');
 const filterBtns = document.querySelectorAll('.filter-btn');
-const menuBtn = document.getElementById('menuBtn');
-const navLinks = document.getElementById('navLinks');
-const yearSpan = document.getElementById('year');
 
-// --- Initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-    yearSpan.textContent = new Date().getFullYear();
-    renderProducts('all');
-    setupObservers();
-});
+// --- Functions ---
 
-// --- Product Rendering ---
-function renderProducts(brandFilter) {
-    grid.innerHTML = ''; // Clear grid
-    
-    const filtered = brandFilter === 'all' 
-        ? PRODUCTS 
-        : PRODUCTS.filter(p => p.brand === brandFilter);
+// 1. Création d'une carte produit HTML
+function createCard(product) {
+    return `
+        <div class="product-card reveal">
+            <div class="card-image">
+                <img src="${product.img}" alt="${product.name}" onerror="this.src='${FALLBACK_IMG}'">
+            </div>
+            <div class="card-info">
+                <span class="card-brand">${product.brand}</span>
+                <h3>${product.name}</h3>
+                <span class="card-price">Prix : à définir</span>
+            </div>
+        </div>
+    `;
+}
 
-    // Add small animation delay for staggered look
-    filtered.forEach((p, index) => {
-        const card = document.createElement('div');
-        card.className = 'product-card reveal';
-        card.style.transitionDelay = `${index * 50}ms`;
+// 2. Rendu de la grille principale
+function renderGrid(filter = 'all') {
+    mainGrid.innerHTML = '';
+    const filtered = filter === 'all' 
+        ? productsData 
+        : productsData.filter(p => p.brand === filter);
         
-        card.innerHTML = `
-            <div class="img-wrapper">
-                <img src="${p.img}" alt="${p.name}" loading="lazy">
-            </div>
-            <div class="product-details">
-                <span class="brand-tag">${p.brand}</span>
-                <h3>${p.name}</h3>
-                <div class="price-row">
-                    <span class="price">${p.price}€</span>
-                    <button class="buy-btn" onclick="orderViaInstagram('${p.name}', ${p.price})">
-                        Commander
-                    </button>
-                </div>
-            </div>
-        `;
-        grid.appendChild(card);
+    filtered.forEach(p => {
+        mainGrid.innerHTML += createCard(p);
     });
+    
+    // Réinitialiser les animations pour les nouveaux éléments
+    setTimeout(observeElements, 100);
+}
 
-    // Re-trigger observer for new elements
-    setTimeout(setupObservers, 100);
+// 3. Rendu du Slider (On prend juste 4 produits aléatoires pour l'exemple)
+function renderSlider() {
+    const featured = productsData.slice(0, 5);
+    featured.forEach(p => {
+        const slide = document.createElement('div');
+        slide.innerHTML = createCard(p);
+        // On enlève la classe reveal pour le slider pour éviter des bugs d'affichage
+        slide.firstElementChild.classList.remove('reveal'); 
+        sliderContainer.appendChild(slide.firstElementChild);
+    });
 }
 
 // --- Event Listeners ---
 
-// Filter Buttons
+// Filtres
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        // Simple fade out effect before rendering new
-        grid.style.opacity = '0';
+        mainGrid.style.opacity = '0'; // Petit effet de fondu
         setTimeout(() => {
-            renderProducts(btn.dataset.brand);
-            grid.style.opacity = '1';
-        }, 200);
+            renderGrid(btn.dataset.filter);
+            mainGrid.style.opacity = '1';
+        }, 300);
     });
+});
+
+// Slider Controls
+document.getElementById('slideLeft').addEventListener('click', () => {
+    sliderContainer.scrollBy({ left: -300, behavior: 'smooth' });
+});
+document.getElementById('slideRight').addEventListener('click', () => {
+    sliderContainer.scrollBy({ left: 300, behavior: 'smooth' });
 });
 
 // Mobile Menu
+const menuBtn = document.querySelector('.menu-btn');
+const mobileMenu = document.querySelector('.mobile-menu-overlay');
+const menuLinks = document.querySelectorAll('.mobile-menu-overlay a');
+
 menuBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('mobile-open');
-    // Animate hamburger lines
-    const spans = menuBtn.querySelectorAll('span');
-    if(navLinks.classList.contains('mobile-open')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-        spans[1].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    mobileMenu.classList.toggle('active');
+    // Animation burger simple
+    const lines = menuBtn.querySelectorAll('.line');
+    if(mobileMenu.classList.contains('active')){
+        lines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        lines[1].style.transform = 'rotate(-45deg) translate(5px, -5px)';
     } else {
-        spans[0].style.transform = 'none';
-        spans[1].style.transform = 'none';
+        lines[0].style.transform = 'none';
+        lines[1].style.transform = 'none';
     }
 });
 
-// Close menu when clicking a link
-navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => navLinks.classList.remove('mobile-open'));
+menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        const lines = menuBtn.querySelectorAll('.line');
+        lines[0].style.transform = 'none';
+        lines[1].style.transform = 'none';
+    });
 });
 
-// --- Logic: Order via Instagram ---
-window.orderViaInstagram = function(name, price) {
-    const msg = `Bonjour Crampons Direct 👋\nJe suis intéressé par : ${name} (${price}€).\nEst-ce disponible en taille [MA TAILLE] ?`;
-    
-    // Copy to clipboard
-    navigator.clipboard.writeText(msg).then(() => {
-        alert('Message copié ! Vous allez être redirigé vers Instagram. Collez simplement le message.');
-        window.open('https://www.instagram.com/cramponsdirect/', '_blank');
-    }).catch(() => {
-        // Fallback if clipboard fails
-        window.open('https://www.instagram.com/cramponsdirect/', '_blank');
-    });
-};
-
-// --- Animations (Intersection Observer) ---
-function setupObservers() {
-    const observerOptions = {
-        threshold: 0.15, // Trigger when 15% of element is visible
-        rootMargin: "0px 0px -50px 0px"
-    };
-
+// --- Intersection Observer (Animations au scroll) ---
+function observeElements() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Only animate once
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
 
-// Contact Form Handler (Visual feedback only)
-document.getElementById('contactForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button');
-    const originalText = btn.textContent;
-    
-    btn.textContent = 'Message Envoyé !';
-    btn.style.background = '#4CAF50'; // Green success
-    
-    setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        e.target.reset();
-    }, 3000);
+// --- Init ---
+document.addEventListener('DOMContentLoaded', () => {
+    renderGrid();
+    renderSlider();
+    observeElements();
 });
